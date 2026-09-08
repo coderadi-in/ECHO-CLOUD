@@ -72,6 +72,8 @@
     text-wrap: balance;
 }
 
+.ulink { color: var(--color-bg-main); }
+
 /* ================================================== */
 /* MODE SELECTION */
 /* ================================================== */
@@ -108,3 +110,20 @@
 
 .form .input { color: var(--color-bg-main); }
 .form .input::placeholder { color: var(--color-text-alt); }
+
+/* ================================================== */
+/* FOOTER */
+/* ================================================== */
+
+.footer {
+    position: fixed;
+    bottom: 0;
+}
+
+.footer .section {
+    background-color: var(--color-surface-main);
+    backdrop-filter: blur(4px);
+    color: var(--color-bg-main);
+}
+
+.footer .ulink { color: var(--color-bg-main); }

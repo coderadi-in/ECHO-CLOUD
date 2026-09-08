@@ -8,56 +8,37 @@
         transform: scale(0);
     }
 
-    .header #settingsOpen {
-        anchor-name: --settingsAnchor;
-    }
-
+    .header #settingsOpen { anchor-name: --settingsAnchor; }
+    .header #settingsOptions.open { transform: scale(1); }
     .header #settingsOptions {
         position-anchor: --settingsAnchor;
         position-area: bottom left;
         transform-origin: top right;
     }
 
-    .header #settingsOptions.open {
-        transform: scale(1);
-    }
-
-    .header #generationOpen {
-        anchor-name: --genAnchor;
-    }
-
+    .header #generationOpen { anchor-name: --genAnchor; }
+    .header #generateOptions.open { transform: scale(1); }
     .header #generateOptions {
         position-anchor: --genAnchor;
         position-area: bottom right;
         transform-origin: top left;
     }
 
-    .header #generateOptions.open {
-        transform: scale(1);
-    }
 
-    .header #openControls {
-        anchor-name: --controlAnchor;
-    }
-
+    .header #openControls { anchor-name: --controlAnchor; }
+    .header #controlOptions.open { transform: scale(1); }
     .header #controlOptions {
         position-anchor: --controlAnchor;
         position-area: bottom span-left;
         transform-origin: top right;
     }
 
-    .header #controlOptions.open {
-        transform: scale(1);
-    }
-
-    #controlOptions .content {
-        gap: 20px 12px;
-    }
+    #controlOptions .content { gap: 20px 12px; }
+    #controlOptions .external_btn { background-color: var(--color-bg-card); }
+    #controlOptions .external_btn:hover { background-color: var(--color-tertiary); }
 
     @media (max-width: 768px) {
-        .header .navlinks {
-            display: none;
-        }
+        .header .navlinks { display: none; }
     }
 </style>
 
@@ -169,6 +150,11 @@
                         <span class="text">Settings</span>
                     </a>
                 </div>
+                <hr class="divider">
+                <a href="{{ url_for('docs.docs_home') }}" class="external_btn link btn row gap-12 rounded-8 p-12 w-full">
+                    <span class="symbol">docs</span>
+                    <span class="text">ECHO DOCS</span>
+                </a>
             </div>
         </div>
     </div>

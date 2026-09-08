@@ -27,15 +27,21 @@
         <section class="section p-48 flex gap-20">
             <div class="mini-nav p-20 rounded-16 bg-card column gap-4 h-fit">
                 <h3 class="h3 uppercase">Controls</h3>
-                <button class="link btn fl pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="profileNav" data-section="profileSettings">Profile</button>
-                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="appearanceNav" data-section="appearanceSettings">Appearance</button>
-                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="securityNav" data-section="securitySettings">Security</button>
-                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="dataNav" data-section="dataSettings">Data</button>
-                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="appNav" data-section="appSettings">The Software</button>
+                <button class="link btn fl pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="profileNav"
+                    data-section="profileSettings">Profile</button>
+                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="appearanceNav"
+                    data-section="appearanceSettings">Appearance</button>
+                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="securityNav"
+                    data-section="securitySettings">Security</button>
+                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="dataNav"
+                    data-section="dataSettings">Data</button>
+                <button class="link btn pv-12 ph-24 fs-16 rounded-12 w-full text-left" id="appNav"
+                    data-section="appSettings">The Software</button>
             </div>
 
             <div class="settings-cards w-full">
-                <div class="settings-card active p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="profileSettings">
+                <div class="settings-card active p-20 rounded-16 bg-card column gap-20 h-fit w-full"
+                    id="profileSettings">
                     <h1 class="h1">Profile</h1>
 
                     <form action="/app/settings/update/profile" method="post" class="form column gap-12">
@@ -50,7 +56,7 @@
                             <input required type="email" name="email" id="email" placeholder="Your email"
                                 value="{{ current_user.email }}" class="input">
                         </div>
-                        
+
                         <div class="form-elem column gap-4">
                             <label for="site_url">Site URL</label>
                             <input type="url" name="site_url" id="site_url" placeholder="Your site URL"
@@ -60,7 +66,7 @@
                         <button type="submit" class="btn fl rounded-full pv-12 ph-24">Update profile</button>
                     </form>
                 </div>
-                
+
                 <div class="settings-card p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="appearanceSettings">
                     <h1 class="h1">Appearance</h1>
 
@@ -68,7 +74,7 @@
                         <span class="symbol">contrast</span>
                         <span class="text">Toggle Theme</span>
                     </button>
-                    
+
                     <button class="link btn row gap-12" popovertarget="accentsList" id="accentsBtn">
                         <span class="symbol">palette</span>
                         <span class="text">Select accent</span>
@@ -76,7 +82,7 @@
 
                     <button class="link btn row gap-12" id="toggleShadow">
                         <span class="text">Shadow</span>
-                        
+
                         <div class="toggle-area">
                             <div class="toggle-body"></div>
                         </div>
@@ -88,12 +94,12 @@
                                 <span class="sample" style="--bg: #2364AA;"></span>
                                 <span class="text">Blue</span>
                             </button>
-                            
+
                             <button class="accent-input link btn row gap-12" id="green">
                                 <span class="sample" style="--bg: #12664F;"></span>
                                 <span class="text">Green</span>
                             </button>
-                            
+
                             <button class="accent-input link btn row gap-12" id="red">
                                 <span class="sample" style="--bg: #B22222;"></span>
                                 <span class="text">Red</span>
@@ -105,30 +111,40 @@
                 <div class="settings-card p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="securitySettings">
                     <h1 class="h1">Security</h1>
 
-                    <button type="button" class="link btn row gap-12" id="securityFormTarget" popovertarget="securityForm">
+                    <button type="button" class="link btn row gap-12" id="securityFormTarget"
+                        popovertarget="securityForm">
                         <span class="symbol">password_2</span>
                         <span class="text">Change password</span>
                     </button>
 
                     <div class="rounded-12 center" id="securityForm" popover>
-                        <form action="/app/settings/update/security" method="post" class="form content column gap-12 p-12 rounded-12 w-full">
+                        <form action="/app/settings/update/security" method="post"
+                            class="form content column gap-12 p-12 rounded-12 w-full">
                             <div class="form-elem column gap-12">
                                 <label for="oldPassword">Current password</label>
-                                <input required type="password" name="oldPassword" id="oldPassword" placeholder="Your current password" class="input">
+                                <input required type="password" name="oldPassword" id="oldPassword"
+                                    placeholder="Your current password" class="input">
                             </div>
-                            
+
                             <div class="form-elem column gap-12">
                                 <label for="newPassword">New password</label>
-                                <input required type="password" name="newPassword" id="newPassword" placeholder="Create a new password" class="input">
+                                <input required type="password" name="newPassword" id="newPassword"
+                                    placeholder="Create a new password" class="input">
                             </div>
 
                             <button type="submit" class="btn fl rounded-full ph-32 pv-12">Update password</button>
                         </form>
                     </div>
 
-                    <a href="{{ url_for('auth.logout') }}" class="link btn row gap-12 rounded-full ph-32 pv-12" id="logoutBtn">
+                    <a href="{{ url_for('auth.logout') }}" class="link btn row gap-12 rounded-full ph-32 pv-12"
+                        id="logoutBtn">
                         <span class="symbol">logout</span>
                         <span class="text">Logout</span>
+                    </a>
+
+                    <a href="{{ url_for('legal.privacy') }}" class="link btn icon-ot rounded-8 ph-12 pv-8">
+                        <span class="text">Privacy Policy</span>
+                        <span class="symbol">privacy_tip</span>
                     </a>
                 </div>
 
@@ -157,6 +173,11 @@
                         <span class="symbol fl-icon">download_2</span>
                         <span class="text">Export data</span>
                     </a>
+
+                    <a href="{{ url_for('legal.privacy') }}" class="link btn icon-ot rounded-8 ph-12 pv-8">
+                        <span class="text">Privacy Policy</span>
+                        <span class="symbol">privacy_tip</span>
+                    </a>
                 </div>
 
                 <div class="settings-card p-20 rounded-16 bg-card column gap-20 h-fit w-full" id="appSettings">
@@ -169,23 +190,36 @@
 
                     <button class="link btn row h-sb w-full" id="toggleNotifications">
                         <span class="text">Notifications</span>
-                        
+
                         <div class="toggle-area">
                             <div class="toggle-body"></div>
                         </div>
 
                         <span class="mini info hidden"></span>
                     </button>
-                    
-                    <button class="link btn res-row h-sb gap-12 w-full" id="toggleBetaMode">
+
+                    <button class="link btn res-row gap-12 w-full" id="toggleBetaMode">
                         <p class="para">Beta Mode <span class="mini">(no release yet)</span></p>
-                        
+
                         <div class="toggle-area">
                             <div class="toggle-body"></div>
                         </div>
 
-                        <span class="mini info">Beta mode unlocks features that're currently in development phase, it can cause crashes, but it won't cause any data loss.</span>
+                        <span class="mini info">Beta mode unlocks features that're currently in development phase, it
+                            can cause crashes, but it won't cause any data loss.</span>
                     </button>
+
+                    <div class="res-row gap-12">
+                        <a href="{{ url_for('legal.privacy') }}" class="link btn icon-ot rounded-8 ph-12 pv-8">
+                            <span class="text">Privacy Policy</span>
+                            <span class="symbol">privacy_tip</span>
+                        </a>
+
+                        <a href="{{ url_for('legal.terms') }}" class="link btn icon-ot rounded-8 ph-12 pv-8">
+                            <span class="text">Terms of Service</span>
+                            <span class="symbol">gavel</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>

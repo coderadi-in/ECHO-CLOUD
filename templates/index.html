@@ -33,7 +33,7 @@
     </header>
 
     <main class="main h-screen column center gap-12 p-20">
-        <p class="para text-center">An AI powered branding management application for E-com businesses.</p>
+        <p class="para text-center">An AI-powered virtual agent built to take on the digital and mental work that keeps business owners behind a screen.</p>
 
         <div class="content column h-center gap-20 p-20 rounded-16">
             <div class="mode-selection row">
@@ -54,7 +54,17 @@
                 <button type="submit" class="btn fl pv-12 rounded-4 w-full">Login</button>
             </form>
         </div>
+
+        <p class="para text-center">By signing up/logging in, you agree to our <a href="{{ url_for('legal.terms') }}" class="ulink">Terms of Service</a> and <a href="{{ url_for('legal.privacy') }}" class="ulink">Privacy Policy</a>.</p>
     </main>
+
+    <footer class="footer w-full">
+        <section class="section p-20 center gap-12">
+            <a href="{{ url_for('legal.privacy') }}" class="ulink">Privacy</a>
+            <span class="text">&bull;</span>
+            <a href="{{ url_for('legal.terms') }}" class="ulink">Terms</a>
+        </section>
+    </footer>
 
     <script type="module" src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
