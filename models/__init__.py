@@ -13,10 +13,12 @@ from .payments import Payment
 from .products import Product
 from .promo import PromoCode
 from .barcode_sheet import BarcodeSheet
+from .order import Order
 
 # ! ALL
 __all__ = [
     "User", "Caption", "Headline", 
     "SavedGen", "Payment", "Product",
-    "PromoCode", "BarcodeSheet"
+    "PromoCode", "BarcodeSheet",
+    "Order"
 ]

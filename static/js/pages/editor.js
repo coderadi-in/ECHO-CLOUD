@@ -20,6 +20,7 @@ const headGenBtns = document.querySelectorAll('.head-gen-btn');
 
 const canvas = document.querySelector('.canvas');
 const generateTab = document.querySelector('.generate');
+const historyTab = document.querySelector('.history');
 
 const outputFrame = document.querySelector('.output-frame');
 const closeFrameBtn = document.getElementById('closeFrame');
@@ -87,6 +88,9 @@ function animateGenSkeleton() {
     generateTab.style.opacity = "0.6";
     generateTab.style.cursor = "wait";
     generateTab.style.pointerEvents = "none";
+    historyTab.style.opacity = "0.6";
+    historyTab.style.cursor = "wait";
+    historyTab.style.pointerEvents = "none";
 
     const intervalId = setInterval(() => {
         lines.forEach(line => {
@@ -98,7 +102,10 @@ function animateGenSkeleton() {
     return () => {
         generateTab.style.opacity = "1";
         generateTab.style.cursor = "auto";
-        generateTab.style.pointerEvents = "none";
+        generateTab.style.pointerEvents = "auto";
+        historyTab.style.opacity = "1";
+        historyTab.style.cursor = "auto";
+        historyTab.style.pointerEvents = "auto";
 
         lines.forEach(line => {
             document.querySelector('.output-frame .head .fs-24').style.display = 'none';

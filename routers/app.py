@@ -107,6 +107,28 @@ def editor():
     return render_template('pages/editor.html')
 
 
+# & REVENUE ROUTE
+@app.route('/revenue')
+@login_required
+@limiter.limit("30 per minute")
+def revenue():
+    return render_template('pages/revenue.html')
+
+# | DOWNLOAD REVENUE ROUTE
+@app.route('/revenue/download')
+@login_required
+@limiter.limit("30 per minute")
+def download_revenue():
+    return render_template('pages/revenue.html')
+
+# | EXPORT ORDERS ROUTE
+@app.route('/revenue/export-orders')
+@login_required
+@limiter.limit("30 per minute")
+def export_orders():
+    return render_template('pages/revenue.html')
+
+
 # & CROPPER ROUTE
 @app.route('/cropper')
 @login_required

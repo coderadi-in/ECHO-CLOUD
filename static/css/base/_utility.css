@@ -62,7 +62,7 @@
     --color-border: #333533;
 
     --color-state-red: #DF2935;
-    --color-state-green: #488B49;
+    --color-state-green: #059669;
     --color-state-yellow: #FCBA03;
 }
 
@@ -83,7 +83,7 @@
     --color-border: #1E212B;
 
     --color-state-red: #DF2935;
-    --color-state-green: #488B49;
+    --color-state-green: #059669;
     --color-state-yellow: #FCBA03;
 }
 
@@ -92,7 +92,7 @@
     --color-accent-alt: #3482D5;
 
     --color-chart-border: #2A78CB;
-    --color-chart-background: #2364AA57;
+    --color-chart-background: #3482D557;
 }
 
 .accent-green {
@@ -100,7 +100,7 @@
     --color-accent-alt: #65B891;
 
     --color-chart-border: #059669;
-    --color-chart-background: #72A27657;
+    --color-chart-background: #65B89157;
 }
 
 .accent-red {
@@ -108,7 +108,7 @@
     --color-accent-alt: #DE5454;
 
     --color-chart-border: #800E13;
-    --color-chart-background: #AD283157;
+    --color-chart-background: #DE545457;
 }
 
 * {
@@ -388,6 +388,8 @@ html {
 }
 
 .highlight { color: var(--color-accent-main); }
+.state-green { color: var(--color-state-green) !important; }
+.state-red { color: var(--color-state-red) !important; }
 
 /* ================================================== */
 /* BORDER */
@@ -421,7 +423,7 @@ html {
 /* ================================================== */
 
 .input {
-    background-color: var(--color-surface-main);
+    background-color: var(--color-tertiary);
     border: none;
     color: var(--color-text-main);
     padding: 8px;
@@ -488,12 +490,14 @@ textarea.input {
 .ot:hover { color: var(--color-text-alt); }
 
 .fl {
-    background-color: var(--color-accent-main);
-    color: #FDFDFF !important;
-    transition: background-color 0.3s;
+    background-color: var(--color-tertiary);
+    border: 2px solid var(--color-accent-main);
+    color: var(--color-text-alt);
+    transition: background-color 0.3s, color 0.3s;
 }
 .fl:hover {
-    background-color: var(--color-accent-alt);
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
 }
 
 .icon-ot {
@@ -512,12 +516,14 @@ textarea.input {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background-color: var(--color-accent-main);
-    color: #FDFDFF !important;
-    transition: background-color 0.3s;
+    background-color: var(--color-tertiary);
+    border: 2px solid var(--color-accent-main);
+    color: var(--color-text-alt);
+    transition: background-color 0.3s, color 0.3s;
 }
 .icon-fl:hover { 
-    background-color: var(--color-accent-alt);
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
  }
 
 /* ================================================== */

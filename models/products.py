@@ -28,3 +28,5 @@ class Product(db.Model):
     title = db.Column(db.String, nullable=False)
     price = db.Column(db.Float, nullable=False)
     desc = db.Column(db.TEXT, nullable=False)
+
+    orders = db.relationship('Order', backref='product', lazy=True)

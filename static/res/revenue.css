@@ -1,0 +1,4 @@
+@media (max-width: 1024px) {
+    .main_body { flex-direction: column; }
+    .info-col { max-width: 100%; }
+}
