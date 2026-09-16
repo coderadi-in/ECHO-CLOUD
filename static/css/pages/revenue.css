@@ -2,23 +2,48 @@
 /* BASIC */
 /* ================================================== */
 
-body {
-    height: auto;
-    overflow: auto;
-}
+main { height: calc(100dvh - 90px); }
 
 /* ================================================== */
-/* INFO COLUMN */
+/* SIDEBAR */
 /* ================================================== */
 
-.info-col { max-width: 360px; }
+.sidebar { max-width: min(360px, 100%); }
 
-.info-col .info-card .icon-content { background-color: var(--color-accent-main); }
-
-.info-col .info-card:not(:last-child) {
+.sidebar .body .product-info:not(:last-child) {
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 12px;
 }
 
-.info-col .info-card .movement { color: var(--color-state-green); }
+/* ================================================== */
+/* INFO-GRID */
+/* ================================================== */
 
+.info-grid .info-card .icon-content { background-color: var(--color-chart-background); }
+
+.info-grid .info-card .info_text {
+    background-color: var(--color-accent-main);
+    color: #F8F7FF;
+}
+
+/* ================================================== */
+/* CHARTS-CONTENT */
+/* ================================================== */
+
+.charts-content,
+.chart-area {
+    min-width: 0;
+    min-height: 0;
+}
+
+.charts-content .chart-area { overflow: hidden; }
+
+.charts-content .chart-area:nth-child(1) {
+    max-width: 70%;
+    max-height: 100%;
+}
+
+.charts-content .chart-area:nth-child(2) {
+    max-width: 30%;
+    max-height: 100%;
+}

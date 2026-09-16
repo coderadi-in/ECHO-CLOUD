@@ -23,153 +23,200 @@
 
     {% include 'components/header.html' %}
 
-    <main class="main column gap-20 p-20">
-        <div class="head res-row h-sb gap-12">
-            <div class="text-content column gap-4">
-                <h1 class="h1">Hi, {{ current_user.name }} 👋</h1>
-                <p class="para">Here's the sales report of your business.</p>
+    <main class="main flex gap-20 p-20 min-h-0">
+        <aside class="sidebar rounded-16 p-16 bg-card w-full h-full min-h-0 column gap-16 shadow">
+            <div class="head row h-sb">
+                <div class="left-row row gap-12">
+                    <span class="symbol">orders</span>
+                    <h3 class="h3">Products</h3>
+                </div>
+
+                <span class="mini ph-12 pv-8 rounded-full bg-tertiary">24 Products</span>
             </div>
 
-            <div class="actions">
+            <input type="search" id="searchProduct" class="input" placeholder="Search by name">
+
+            <div class="body column gap-12">
+                <div class="product-info row h-sb">
+                    <div class="left-side">
+                        <p class="para fw-500">Plastic Visiting Card</p>
+                        <p class="para">₹ 199.00</p>
+                    </div>
+
+                    <div class="right-side text-right">
+                        <p class="para">₹ 38,850.00</p>
+                        <p class="para">195</p>
+                    </div>
+                </div>
+                
+                <div class="product-info row h-sb">
+                    <div class="left-side">
+                        <p class="para fw-500">Aluminum Visiting Card</p>
+                        <p class="para">₹ 1499.00</p>
+                    </div>
+
+                    <div class="right-side text-right">
+                        <p class="para">₹ 161,892.0</p>
+                        <p class="para">108</p>
+                    </div>
+                </div>
+                
+                <div class="product-info row h-sb">
+                    <div class="left-side">
+                        <p class="para fw-500">Gold-plated Visiting Card</p>
+                        <p class="para">₹ 3999.00</p>
+                    </div>
+
+                    <div class="right-side text-right">
+                        <p class="para">₹ 271,932.0</p>
+                        <p class="para">68</p>
+                    </div>
+                </div>
+                
+                <div class="product-info row h-sb">
+                    <div class="left-side">
+                        <p class="para fw-500">Titanium Visiting Card</p>
+                        <p class="para">₹ 5499.00</p>
+                    </div>
+
+                    <div class="right-side text-right">
+                        <p class="para">₹ 98,982.0</p>
+                        <p class="para">18</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="revenue_content p-16 column gap-20 w-full">
+            <div class="head res-row h-sb gap-12">
+                <h1 class="h1">Sales performance</h1>
+
                 <a href="{{ url_for('app.download_revenue') }}" class="link btn icon-fl rounded-8 ph-12 pv-8">
                     <span class="text">Export</span>
                     <span class="symbol">download</span>
                 </a>
             </div>
-        </div>
-        <hr class="divider">
 
-        <div class="main_body flex gap-20">
-            <div class="info-col column gap-20 p-20 rounded-16 bg-card w-full">
-                <span class="text fs-24">Highlights</span>
+            <div class="info-grid grid cols-auto-320 gap-20">
+                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
+                    <div class="head row h-sb">
+                        <div class="left-row column gap-4">
+                            <span class="mini uppercase">Current year's sale</span>
+                            <h1 class="h1">₹ 11,71,656.00</h1>
+                        </div>
 
-                <div class="info-card flex gap-12">
-                    <div class="icon-content h-fit p-12 rounded-16">
-                        <span class="symbol">finance</span>
+                        <div class="icon-content p-12 rounded-12">
+                            <span class="symbol">calendar_month</span>
+                        </div>
                     </div>
 
-                    <div class="text-content column gap-4">
-                        <span class="text">Annual revenue</span>
-                        <h1 class="h1">₹ 58,964.00</h1>
-
-                        <div class="row gap-12">
-                            <div class="movement">
-                                <span class="symbol fs-16">keyboard_arrow_up</span>
-                                <span class="mini">12%</span>
-                            </div>
-
-                            <span class="text">vs last year</span>
-                        </div>
+                    <div class="body row h-sb">
+                        <span class="text ph-12 pv-8 rounded-full info_text">+ 12%</span>
+                        <span class="text">vs last year</span>
                     </div>
                 </div>
+                
+                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
+                    <div class="head row h-sb">
+                        <div class="left-row column gap-4">
+                            <span class="mini uppercase">Current month's sale</span>
+                            <h1 class="h1">₹ 5,71,656.00</h1>
+                        </div>
 
-                <div class="info-card flex gap-12">
-                    <div class="icon-content h-fit p-12 rounded-16">
-                        <span class="symbol">shopping_cart</span>
+                        <div class="icon-content p-12 rounded-12">
+                            <span class="symbol">date_range</span>
+                        </div>
                     </div>
 
-                    <div class="text-content column gap-4">
-                        <span class="text">This month's sales</span>
-                        <h1 class="h1">₹ 8,964.00</h1>
-
-                        <div class="row gap-12">
-                            <div class="movement">
-                                <span class="symbol fs-16">keyboard_arrow_up</span>
-                                <span class="mini">12%</span>
-                            </div>
-
-                            <span class="text">vs last month</span>
-                        </div>
+                    <div class="body row h-sb">
+                        <span class="text ph-12 pv-8 rounded-full info_text">+ 12%</span>
+                        <span class="text">vs last month</span>
                     </div>
                 </div>
+                
+                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
+                    <div class="head row h-sb">
+                        <div class="left-row column gap-4">
+                            <span class="mini uppercase">Failed orders</span>
+                            <h1 class="h1">₹ 5,345.00</h1>
+                        </div>
 
-                <div class="info-card flex gap-12">
-                    <div class="icon-content h-fit p-12 rounded-16">
-                        <span class="symbol">trending_up</span>
+                        <div class="icon-content p-12 rounded-12">
+                            <span class="symbol">exclamation</span>
+                        </div>
                     </div>
 
-                    <div class="text-content column gap-4">
-                        <span class="text">Sales increment</span>
-                        <h1 class="h1">₹ 2,964.00</h1>
-
-                        <div class="row gap-12">
-                            <div class="movement">
-                                <span class="symbol fs-16">keyboard_arrow_up</span>
-                                <span class="mini">12%</span>
-                            </div>
-
-                            <span class="text">vs last month</span>
-                        </div>
+                    <div class="body row h-sb">
+                        <span class="text ph-12 pv-8 rounded-full info_text">- 10%</span>
+                        <span class="text">vs last month</span>
                     </div>
                 </div>
+                
+                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
+                    <div class="head row h-sb">
+                        <div class="left-row column gap-4">
+                            <span class="mini uppercase">Total orders</span>
+                            <h1 class="h1">389</h1>
+                        </div>
 
-                <div class="info-card flex gap-12">
-                    <div class="icon-content h-fit p-12 rounded-16">
-                        <span class="symbol">warning</span>
+                        <div class="icon-content p-12 rounded-12">
+                            <span class="symbol">orders</span>
+                        </div>
                     </div>
 
-                    <div class="text-content column gap-4">
-                        <span class="text">Failed payments</span>
-                        <h1 class="h1">₹ 1,004.00</h1>
-
-                        <div class="row gap-12">
-                            <div class="movement">
-                                <span class="symbol fs-16">keyboard_arrow_down</span>
-                                <span class="mini">5%</span>
-                            </div>
-
-                            <span class="text">vs last month</span>
+                    <div class="body row h-sb">
+                        <span class="text ph-12 pv-8 rounded-full info_text">+ 20%</span>
+                        <span class="text">vs last month</span>
+                    </div>
+                </div>
+                
+                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
+                    <div class="head row h-sb">
+                        <div class="left-row column gap-4">
+                            <span class="mini uppercase">Bestselling Product</span>
+                            <h1 class="h1">195</h1>
                         </div>
+
+                        <div class="icon-content p-12 rounded-12">
+                            <span class="symbol">bookmark_star</span>
+                        </div>
+                    </div>
+
+                    <div class="body row h-sb">
+                        <span class="text ph-12 pv-8 rounded-full info_text">+ 40%</span>
+                        <span class="text">vs last month</span>
+                    </div>
+                </div>
+                
+                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
+                    <div class="head row h-sb">
+                        <div class="left-row column gap-4">
+                            <span class="mini uppercase">Top Revenue Contributor</span>
+                            <h1 class="h1">₹ 2,71,932.00</h1>
+                        </div>
+
+                        <div class="icon-content p-12 rounded-12">
+                            <span class="symbol">crown</span>
+                        </div>
+                    </div>
+
+                    <div class="body row h-sb">
+                        <span class="text ph-12 pv-8 rounded-full info_text">+ 10%</span>
+                        <span class="text">vs last month</span>
                     </div>
                 </div>
             </div>
 
-            <div class="analytics column gap-20 p-20 rounded-16 bg-card w-full">
-                <div class="head row h-sb">
-                    <span class="text fs-32">Recent Orders</span>
-
-                    <div class="actions row gap-12">
-                        <select id="filterPeriod" class="input">
-                            <option value="month" selected>This month</option>
-                            <option value="week">This week</option>
-                            <option value="day">Today</option>
-                        </select>
-
-                        <a href="{{ url_for('app.export_orders') }}" class="link symbol">download</a>
-                    </div>
+            <div class="charts-content h-full flex gap-20">
+                <div class="chart-area bg-card p-16 rounded-16 shadow w-full">
+                    <canvas id="growthChart"></canvas>
                 </div>
 
-                <div class="analytics_body column gap-12">
-                    <div class="head grid p-12 cols-4 gap-12 bg-tertiary rounded-8">
-                        <p class="para">Title</p>
-                        <span class="text">Amount</span>
-                        <span class="text">Date</span>
-                        <span class="link ">Status</span>
-                    </div>
-
-                    <div class="order grid p-12 cols-4 gap-12">
-                        <span class="text ulink">#1</span>
-                        <span class="text">₹154.00</span>
-                        <span class="text">Sep&nbsp;01</span>                        
-                        <span class="text state-green capitalize link">collected</span>
-                    </div>
-                    
-                    <div class="order grid p-12 cols-4 gap-12">
-                        <span class="text ulink">#1</span>
-                        <span class="text">₹154.00</span>
-                        <span class="text">Sep&nbsp;01</span>                        
-                        <span class="text state-red capitalize link">failed</span>
-                    </div>
-                    
-                    <div class="order grid p-12 cols-4 gap-12">
-                        <span class="text ulink">#1</span>
-                        <span class="text">₹154.00</span>
-                        <span class="text">Sep&nbsp;01</span>                        
-                        <span class="text state-green capitalize link">collected</span>
-                    </div>
+                <div class="chart-area bg-card p-16 rounded-16 shadow w-full">
+                    <canvas id="contributionChart"></canvas>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
