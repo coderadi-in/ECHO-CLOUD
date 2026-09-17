@@ -100,7 +100,6 @@ async function renderUsageChart() {
         options: {
             scales: {
                 x: { grid: { display: false } },
-                y: { grid: { display: false } },
             }
         }
     });

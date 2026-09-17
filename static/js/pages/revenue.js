@@ -1,12 +1,20 @@
 // ==================================================
-// ELEMENT REFERENCE
+// REFERENCES
 // ==================================================
 
+// ? ELEMENT REFERENCES
 const growthChart = document.getElementById('growthChart').getContext('2d');
 const contributionChart = document.getElementById('contributionChart').getContext('2d');
 
-// ! TEMPORARY REFERENCES
+// ? AUXILIARY REFERENCES
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+const colorShades = [
+    '#34623F', '#568259', '#FFF689', '#FAF4D3',
+    '#F6BE9A', '#FFCF9C', '#00A7E1', '#A5A5A5',
+    '#8D98A7', '#A15E49', '#947BD3', '#DECBB7',
+];
+
+// ! TEMPORARY REFERENCES
 const barChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -22,7 +30,7 @@ const barChartOptions = {
 
 // * FUNCTION TO GENERATE RANDOM HEX
 function getRandomHexColor() {
-    return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}57`;
+    return `${colorShades[Math.floor(Math.random() * colorShades.length)]}`;
 }
 
 
@@ -41,7 +49,7 @@ function renderGrowthChart() {
                     34, 143, 134, 232, 345, 234,
                     435, 345, 423, 523, 587, 712
                 ],
-                backgroundColor: rootStyle.getPropertyValue('--color-chart-background'),
+                backgroundColor: rootStyle.getPropertyValue('--color-chart-secondary'),
                 borderRadius: 16
             }]
         },
@@ -62,6 +70,7 @@ function renderContributionChart() {
                 data: [195, 108, 68, 18],
                 backgroundColor: Array.from({ length: 4 }, getRandomHexColor),
                 hoverOffset: 4,
+                borderColor: 'transparent',
             }],
         },
         options: {

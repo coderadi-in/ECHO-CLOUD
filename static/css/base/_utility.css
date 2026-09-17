@@ -92,7 +92,8 @@
     --color-accent-alt: #3482D5;
 
     --color-chart-border: #2A78CB;
-    --color-chart-background: #3482D557;
+    --color-chart-background: #00A7E1A0;
+    --color-chart-secondary: #00A7E1;
 }
 
 .accent-green {
@@ -100,7 +101,8 @@
     --color-accent-alt: #65B891;
 
     --color-chart-border: #059669;
-    --color-chart-background: #65B89157;
+    --color-chart-background: #568259A0;
+    --color-chart-secondary: #568259;
 }
 
 .accent-red {
@@ -108,7 +110,8 @@
     --color-accent-alt: #DE5454;
 
     --color-chart-border: #800E13;
-    --color-chart-background: #DE545457;
+    --color-chart-background: #A15E49A0;
+    --color-chart-secondary: #A15E49;
 }
 
 * {
