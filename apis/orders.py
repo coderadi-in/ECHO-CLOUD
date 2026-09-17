@@ -20,7 +20,7 @@ orders = Blueprint('orders', __name__, url_prefix='/api/orders')
 today = date.today()
 
 # ==================================================
-# ORDER SPECIFIC END-POINTS
+# FETCH ORDER SPECIFIC END-POINTS
 # ==================================================
 
 # & FETCH QUANTITY OF ORDERS SOLD IN A YEAR
@@ -101,4 +101,50 @@ def fetch_prod_qty_by_month():
             'products': product_list,
             'qty': orders_list
         }
+    }), 200
+
+# ==================================================
+# PUSH ORDER SPECIFIC END-POINTS
+# ==================================================
+
+# & CREATE NEW ORDER
+@orders.route('/push', methods=['POST'])
+@limiter.limit("100 per minute")
+@login_required
+def push_order():
+    print("Got a request!")
+    # SOURCE VALIDATION
+    source_url = request.headers.get('Origin')
+    source_origin = extract_origin(source_url)
+    user_origin = extract_origin(current_user.site_url)
+
+    if (not source_origin) or (source_origin != user_origin):
+        return jsonify({
+            'status': 400,
+            'message': "The source looks suspicious."
+        }), 400
+
+    # ACCESS SOURCE DATA
+    source_id = request.form.get('source_id')
+
+    # VALIDATE SOURCE DATA
+    if (not Product.query.get(source_id)):
+        return jsonify({
+            'status': 422,
+            'message': "The source id isn't compatible."
+        }), 422
+
+    # CREATE NEW ORDER
+    new_order = Order(
+        user=current_user.id,
+        product_id=source_id,
+    )
+
+    # SAVE NEW ORDER TO DB
+    db.session.add(new_order)
+    db.session.commit()
+
+    return jsonify({
+        'status': 200,
+        'message': "The order has been accepted."
     }), 200

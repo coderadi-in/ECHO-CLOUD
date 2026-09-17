@@ -29,4 +29,5 @@ dependencies = [
     "barcode>=1.0.4",
     "python-barcode>=0.16.1",
     "setuptools<82.0.0",
+    "flask-cors>=6.0.5",
 ]

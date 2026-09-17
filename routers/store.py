@@ -68,10 +68,11 @@ def sync_store():
         price = "".join(char for char in product[1] if char.isdigit())
 
         new_product = Product(
+            id=product[0],
             user=current_user.id,
-            title=product[0],
+            title=product[1],
             price=float(price),
-            desc=product[2]
+            desc=product[3]
         )
 
         db.session.add(new_product)
