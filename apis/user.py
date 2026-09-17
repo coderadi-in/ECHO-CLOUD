@@ -23,6 +23,8 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 
 # & END-POINT TO GET USER'S MONTHLY CREDIT USAGE
 @user.route('/credits/monthly-usage')
+@limiter.limit("20 per minute")
+@login_required
 def get_monthly_usage():
     # VALUES DEFINITION
     today = date.today()
