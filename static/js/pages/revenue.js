@@ -43,15 +43,28 @@ function renderGrowthChart() {
         type: 'bar',
         data: {
             labels: months,
-            datasets: [{
-                label: "Sales",
-                data: [
-                    34, 143, 134, 232, 345, 234,
-                    435, 345, 423, 523, 587, 712
-                ],
-                backgroundColor: rootStyle.getPropertyValue('--color-chart-secondary'),
-                borderRadius: 16
-            }]
+            datasets: [
+                {
+                    label: "Orders",
+                    data: [
+                        34, 143, 134, 232, 345, 234,
+                        435, 345, 423, 523, 587, 712
+                    ],
+                    backgroundColor: rootStyle.getPropertyValue('--color-chart-secondary'),
+                    borderRadius: 16,
+                    yAxisID: 'y'
+                },
+                {
+                    label: "Sales",
+                    data: [
+                        44534, 30944, 30941, 49586, 89303, 348503,
+                        85900, 94390, 193405, 234912, 234902, 209809
+                    ],
+                    backgroundColor: rootStyle.getPropertyValue('--color-chart-secondary'),
+                    borderRadius: 16,
+                    yAxisID: 'y1'
+                },
+            ]
         },
         options: barChartOptions
     });

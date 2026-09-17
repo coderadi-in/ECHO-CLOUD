@@ -31,59 +31,25 @@
                     <h3 class="h3">Products</h3>
                 </div>
 
-                <span class="mini ph-12 pv-8 rounded-full bg-tertiary">24 Products</span>
+                <span class="mini ph-12 pv-8 rounded-full bg-tertiary">{{ data.products_qty }} Products</span>
             </div>
 
             <input type="search" id="searchProduct" class="input" placeholder="Search by name">
 
             <div class="body column gap-12">
+                {% for order in data.orders_info %}
                 <div class="product-info row h-sb">
                     <div class="left-side">
-                        <p class="para fw-500">Plastic Visiting Card</p>
-                        <p class="para">₹ 199.00</p>
+                        <p class="para fw-500">{{ order.title }}</p>
+                        <p class="para">₹ {{ order.price }}</p>
                     </div>
 
                     <div class="right-side text-right">
-                        <p class="para">₹ 38,850.00</p>
-                        <p class="para">195</p>
+                        <p class="para">₹ {{ order.monthly_sales }}</p>
+                        <p class="para">{{ order.orders }} orders</p>
                     </div>
                 </div>
-                
-                <div class="product-info row h-sb">
-                    <div class="left-side">
-                        <p class="para fw-500">Aluminum Visiting Card</p>
-                        <p class="para">₹ 1499.00</p>
-                    </div>
-
-                    <div class="right-side text-right">
-                        <p class="para">₹ 161,892.0</p>
-                        <p class="para">108</p>
-                    </div>
-                </div>
-                
-                <div class="product-info row h-sb">
-                    <div class="left-side">
-                        <p class="para fw-500">Gold-plated Visiting Card</p>
-                        <p class="para">₹ 3999.00</p>
-                    </div>
-
-                    <div class="right-side text-right">
-                        <p class="para">₹ 271,932.0</p>
-                        <p class="para">68</p>
-                    </div>
-                </div>
-                
-                <div class="product-info row h-sb">
-                    <div class="left-side">
-                        <p class="para fw-500">Titanium Visiting Card</p>
-                        <p class="para">₹ 5499.00</p>
-                    </div>
-
-                    <div class="right-side text-right">
-                        <p class="para">₹ 98,982.0</p>
-                        <p class="para">18</p>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </aside>
 
@@ -102,7 +68,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Current year's sale</span>
-                            <h1 class="h1">₹ 11,71,656.00</h1>
+                            <h1 class="h1">₹ {{ data.sales.yearly }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -120,7 +86,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Current month's sale</span>
-                            <h1 class="h1">₹ 5,71,656.00</h1>
+                            <h1 class="h1">₹ {{ data.sales.monthly }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -138,7 +104,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Failed orders</span>
-                            <h1 class="h1">₹ 5,345.00</h1>
+                            <h1 class="h1">₹ {{ data.failed_amount }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -156,7 +122,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Total orders</span>
-                            <h1 class="h1">389</h1>
+                            <h1 class="h1">{{ data.qty.monthly }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -174,7 +140,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Bestselling Product</span>
-                            <h1 class="h1">195</h1>
+                            <h1 class="h1">{{ data.crown.bestseller }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -192,7 +158,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Top Revenue Contributor</span>
-                            <h1 class="h1">₹ 2,71,932.00</h1>
+                            <h1 class="h1">₹ {{ data.crown.top_rev }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">

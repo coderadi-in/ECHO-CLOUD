@@ -112,7 +112,73 @@ def editor():
 @login_required
 @limiter.limit("30 per minute")
 def revenue():
-    return render_template('pages/revenue.html')
+    # EMPTY DATA ATTRIBUTES
+    orders_info = []
+    monthly_sales_qty = 0
+    monthly_sales_amount = 0
+    yearly_sales_amount = 0
+    bestseller_prod_order_qty = 0
+    top_rev_cont_amt = 0
+    failed_orders_amt = 0
+
+    # FETCH USER PRODUCTS
+    products_qty = Product.query.filter(Product.user==current_user.id).count()
+
+    for product in current_user.products:
+        # FETCH ORDER INFO ON 1-MONTH TIME-FRAME
+        monthly_orders = Order.query.filter(
+            Order.user == current_user.id,
+            Order.product_id == product.id,
+            Order.status == 'accepted',
+            extract('month', Order.ordered_on) == date.today().month,
+        ).count()
+
+        # FETCH ORDER INFO ON 1-YEAR TIME-FRAME
+        yearly_orders = Order.query.filter(
+            Order.user == current_user.id,
+            Order.product_id == product.id,
+            Order.status == 'accepted',
+            extract('year', Order.ordered_on) == date.today().year,
+        ).count()
+
+        # POPULATE DATA
+        monthly_sales_qty += monthly_orders
+
+        orders_info.append({
+            'title': product.title,
+            'price': product.price,
+            'orders': monthly_orders,
+            'monthly_sales': product.price * monthly_orders,
+            'yearly_sales': product.price * yearly_orders,
+        })
+
+    # CALCULATE FAILED ORDERS AMOUNT
+    failed_info = Order.query.filter(
+        Order.user == current_user.id,
+        Order.status == 'rejected',
+        extract('month', Order.ordered_on) == date.today().month,
+    ).all()
+
+    for info in failed_info:
+        amount = Product.query.get(info.product_id).price
+        failed_orders_amt += amount
+
+    monthly_sales_amount = sum([info['monthly_sales'] for info in orders_info])
+    yearly_sales_amount = sum([info['yearly_sales'] for info in orders_info])
+    bestseller_prod_order_qty = max([info['orders'] for info in orders_info])
+    top_rev_cont_amt = max([info['monthly_sales'] for info in orders_info])
+
+    return render_template('pages/revenue.html', data={
+        'products_qty': products_qty,
+        'qty': { 'monthly': monthly_sales_qty },
+        'orders_info': orders_info,
+        'sales': { 'yearly': yearly_sales_amount, 'monthly': monthly_sales_amount },
+        'failed_amount': failed_orders_amt,
+        'crown': {
+            'bestseller': bestseller_prod_order_qty,
+            'top_rev': top_rev_cont_amt,
+        },
+    })
 
 # | DOWNLOAD REVENUE ROUTE
 @app.route('/revenue/download')
