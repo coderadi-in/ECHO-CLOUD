@@ -63,12 +63,17 @@ def sync_store():
     
     product_list = products.values.tolist()
 
+    if (len(product_list) == 0):
+        flash("Couldn't extract products from store.", "error")
+        return redirect(url_for('store.store_page'))
+
     # ADD NEW PRODUCTS TO DB
     for product in product_list:
-        price = "".join(char for char in product[1] if char.isdigit())
+        price = "".join(char for char in product[2] if char.isdigit())
+        id = "".join(char for char in product[0] if char.isdigit())
 
         new_product = Product(
-            id=product[0],
+            id=int(id),
             user=current_user.id,
             title=product[1],
             price=float(price),

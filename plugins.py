@@ -16,7 +16,7 @@ from flask_limiter.util import get_remote_address
 from openai import OpenAI, APIConnectionError
 import os, time
 from sqlalchemy import extract
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta
 from typing import Literal
 import requests
 from bs4 import BeautifulSoup
@@ -26,6 +26,7 @@ from requests.exceptions import RetryError
 from uuid import uuid4
 import logging
 from razorpay import Client
+from urllib.parse import urlparse
 
 # ! INITS
 db = SQLAlchemy()
@@ -38,6 +39,15 @@ client = Client(auth=(os.getenv("RZP_ID_TEST"), os.getenv("RZP_SECRET_TEST")))
 
 # ! PLANS LIST
 ACCOUNT_PLANS = { "pro": 19900, }
+
+# * FUNCTION TO EXTRACT ORIGIN FROM A URL
+def extract_origin(url: str) -> (str|None):
+    parsed = urlparse(url)
+
+    if (not parsed.scheme) or (not parsed.netloc):
+        return None
+
+    return f"{parsed.scheme}://{parsed.netloc}"
 
 # * FUNCTION TO INITIALIZE LOGGING SETUP
 def init_logging_setup():
@@ -312,19 +322,21 @@ def scrape_store() -> bool|pd.DataFrame:
     except Exception as e:
         logging.error(str(e))
         return False
-    
+
     soup = BeautifulSoup(response.text, 'html.parser')
     products = {
+        "Id": [],
         "Title": [],
         "Price": [],
         "Desc": []
     }
 
-    cards = soup.find_all(attrs={'class': 'product_card'})
+    cards = soup.find_all(attrs={'class': 'product-card'})
 
     for card in cards:
-        products["Title"].append(card.find(attrs={'class': 'product_title'}).text)
-        products["Price"].append(card.find(attrs={'class': 'product_price'}).text)
-        products["Desc"].append(card.find(attrs={'class': 'product_desc'}).text)
+        products["Id"].append(card.find(attrs={'class': 'product-id'}).text)
+        products["Title"].append(card.find(attrs={'class': 'product-title'}).text)
+        products["Price"].append(card.find(attrs={'class': 'product-price'}).text)
+        products["Desc"].append(card.find(attrs={'class': 'product-desc'}).text)
 
     return pd.DataFrame(products)

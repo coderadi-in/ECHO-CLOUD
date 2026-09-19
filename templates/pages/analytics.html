@@ -8,11 +8,11 @@
     <link rel="pre-connect" href="https://fonts.googleapis.com">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/icons/favicon.ico') }}" type="image/x-icon">
-    <title>Revenue &bull; ECHO</title>
+    <title>Analytics &bull; ECHO</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/base/_utility.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/revenue.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='res/revenue.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/analytics.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='res/analytics.css') }}">
 
     <link rel="manifest" href="/static/manifest.json" />
 </head>
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="right-side text-right">
-                        <p class="para">₹ {{ order.monthly_sales }}</p>
+                        <p class="para">₹ {{ order.sales }}</p>
                         <p class="para">{{ order.orders }} orders</p>
                     </div>
                 </div>
@@ -53,11 +53,11 @@
             </div>
         </aside>
 
-        <section class="revenue_content column gap-20 w-full">
+        <section class="analytics_content column gap-20 w-full">
             <div class="head res-row h-sb gap-12">
-                <h1 class="h1">Sales performance</h1>
+                <h1 class="h1">Analytics</h1>
 
-                <a href="{{ url_for('app.download_revenue') }}" class="link btn icon-fl rounded-8 ph-12 pv-8">
+                <a href="{{ url_for('app.download_analytics') }}" class="link btn icon-fl rounded-8 ph-12 pv-8">
                     <span class="text">Export</span>
                     <span class="symbol">download</span>
                 </a>
@@ -67,8 +67,8 @@
                 <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
-                            <span class="mini uppercase">Current year's sale</span>
-                            <h1 class="h1">₹ {{ data.sales.yearly }}</h1>
+                            <span class="mini uppercase">Current year's Orders</span>
+                            <h1 class="h1">{{ data.orders.yearly }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -81,12 +81,12 @@
                         <span class="text">vs last year</span>
                     </div>
                 </div>
-                
+
                 <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
-                            <span class="mini uppercase">Current month's sale</span>
-                            <h1 class="h1">₹ {{ data.sales.monthly }}</h1>
+                            <span class="mini uppercase">Current month's Orders</span>
+                            <h1 class="h1">{{ data.orders.monthly }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -99,12 +99,12 @@
                         <span class="text">vs last month</span>
                     </div>
                 </div>
-                
+
                 <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Failed orders</span>
-                            <h1 class="h1">₹ {{ data.failed_amount }}</h1>
+                            <h1 class="h1">{{ data.orders.failed }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -117,77 +117,39 @@
                         <span class="text">vs last month</span>
                     </div>
                 </div>
-                
-                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
-                    <div class="head row h-sb">
-                        <div class="left-row column gap-4">
-                            <span class="mini uppercase">Total orders</span>
-                            <h1 class="h1">{{ data.qty.monthly }}</h1>
-                        </div>
-
-                        <div class="icon-content p-12 rounded-12">
-                            <span class="symbol">orders</span>
-                        </div>
-                    </div>
-
-                    <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 20%</span>
-                        <span class="text">vs last month</span>
-                    </div>
-                </div>
-                
-                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
-                    <div class="head row h-sb">
-                        <div class="left-row column gap-4">
-                            <span class="mini uppercase">Bestselling Product</span>
-                            <h1 class="h1">{{ data.crown.bestseller }}</h1>
-                        </div>
-
-                        <div class="icon-content p-12 rounded-12">
-                            <span class="symbol">bookmark_star</span>
-                        </div>
-                    </div>
-
-                    <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 40%</span>
-                        <span class="text">vs last month</span>
-                    </div>
-                </div>
-                
-                <div class="info-card rounded-16 p-16 bg-card column gap-24 shadow">
-                    <div class="head row h-sb">
-                        <div class="left-row column gap-4">
-                            <span class="mini uppercase">Top Revenue Contributor</span>
-                            <h1 class="h1">₹ {{ data.crown.top_rev }}</h1>
-                        </div>
-
-                        <div class="icon-content p-12 rounded-12">
-                            <span class="symbol">crown</span>
-                        </div>
-                    </div>
-
-                    <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 10%</span>
-                        <span class="text">vs last month</span>
-                    </div>
-                </div>
             </div>
 
-            <div class="charts-content h-full flex gap-20">
-                <div class="chart-area bg-card p-16 rounded-16 shadow w-full">
-                    <canvas id="growthChart"></canvas>
+            <div class="analytics-table column gap-24 p-16 rounded-16 bg-card shadow h-full">
+                <div class="analytics-head row h-sb">
+                    <h3 class="h3">Orders</h3>
+
+                    <div class="res-row gap-12">
+                        <div class="row gap-8">
+                            <label for="fromDate">From</label>
+                            <input type="date" id="fromDate" class="input">
+                        </div>
+
+                        <div class="row gap-8">
+                            <label for="toDate">To</label>
+                            <input type="date" id="toDate" class="input">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="chart-area bg-card p-16 rounded-16 shadow w-full">
-                    <canvas id="contributionChart"></canvas>
+                <div class="analytics-body">
+                    <div class="analytics-row row-head grid cols-4 p-12">
+                        <span class="text">Id</span>
+                        <span class="text">Date</span>
+                        <span class="text">Amount</span>
+                        <span class="text">Status</span>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="{{ url_for('static', filename='js/components/toast.js') }}"></script>
-    <script type="module" src="{{ url_for('static', filename='js/pages/revenue.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/pages/analytics.js') }}"></script>
 </body>
 
 </html>

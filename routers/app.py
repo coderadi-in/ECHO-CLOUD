@@ -21,6 +21,9 @@ from services.barcode import generate_barcode
 # ! ROUTER INIT
 app = Blueprint("app", __name__, url_prefix='/app')
 
+# ? AUXILIARY REFERENCES
+today = date.today()
+
 # ==================================================
 # ROUTES
 # ==================================================
@@ -44,17 +47,17 @@ def dashboard():
     # COUNT CURRENT MONTH'S GENERATIONS
     month_captions_count = Caption.query.filter(
         Caption.user == current_user.id,
-        extract('month', Caption.created_at) == date.today().month,
+        extract('month', Caption.created_at) == today.month,
     ).count()
 
     month_headlines_count = Headline.query.filter(
         Headline.user == current_user.id,
-        extract('month', Headline.created_at) == date.today().month,
+        extract('month', Headline.created_at) == today.month,
     ).count()
 
     month_barcode_sheet_count = BarcodeSheet.query.filter(
         BarcodeSheet.user == current_user.id,
-        extract('month', BarcodeSheet.created_at) == date.today().month,
+        extract('month', BarcodeSheet.created_at) == today.month,
     ).count()
 
     month_gens = month_captions_count + month_headlines_count + month_barcode_sheet_count
@@ -62,17 +65,17 @@ def dashboard():
     # COUNT TODAY'S GENERATIONS
     today_caption_count = Caption.query.filter(
         Caption.user == current_user.id,
-        Caption.created_at == date.today()
+        Caption.created_at == today
     ).count()
 
     today_headline_count = Headline.query.filter(
         Headline.user == current_user.id,
-        Headline.created_at == date.today()
+        Headline.created_at == today
     ).count()
 
     today_barcode_sheet_count = BarcodeSheet.query.filter(
         BarcodeSheet.user == current_user.id,
-        BarcodeSheet.created_at == date.today()
+        BarcodeSheet.created_at == today
     ).count()
 
     today_gens = today_caption_count + today_headline_count + today_barcode_sheet_count
@@ -107,11 +110,90 @@ def editor():
     return render_template('pages/editor.html')
 
 
+# & ANALYTICS ROUTE
+@app.route('/analytics')
+@limiter.limit("30 per minute")
+@login_required
+def analytics():
+    # FETCH USER PRODUCTS
+    products_qty = Product.query.filter(Product.user==current_user.id).count()
+
+    # CHECK IF STORE IS SYNCED
+    if (products_qty == 0):
+        flash("There are not products listed!", "error")
+        return redirect(url_for('app.dashboard'))
+
+    # EMPTY DATA VALUES
+    orders_info = []
+
+    # FETCH CURRENT MONTH'S SALES DATA FOR EACH PRODUCT
+    for product in current_user.products:
+        orders_count = Order.query.filter(
+            Order.user==current_user.id,
+            Order.product_id==product.id,
+            Order.status=='accepted',
+            extract('month', Order.ordered_on) == today.month,
+        ).count()
+
+        orders_info.append({
+            'title': product.title,
+            'price': product.price,
+            'orders': orders_count,
+            'sales': orders_count * product.price
+        })
+
+    # MONTHLY ORDERS COUNT
+    monthly_count = Order.query.filter(
+        Order.user == current_user.id,
+        Order.status == 'accepted',
+        extract('month', Order.ordered_on) == today.month,
+    ).count()
+
+    # YEARLY ORDERS COUNT
+    yearly_count = Order.query.filter(
+        Order.user == current_user.id,
+        Order.status == 'accepted',
+        extract('year', Order.ordered_on) == today.year,
+    ).count()
+
+    # FAILED ORDERS COUNT
+    failed_count = Order.query.filter(
+        Order.user == current_user.id,
+        Order.status == 'rejected',
+        extract('month', Order.ordered_on) == today.month,
+    ).count()
+
+    # RETURN RESPONSE
+    return render_template('pages/analytics.html', data={
+        'orders_info': orders_info,
+        'orders': {
+            'yearly': yearly_count,
+            'monthly': monthly_count,
+            'failed': failed_count
+        }
+    })
+
+# | DOWNLOAD ANALYTICS ROUTE
+@app.route('/analytics/download')
+@login_required
+@limiter.limit("30 per minute")
+def download_analytics():
+    return render_template('pages/analytics.html')
+
+
 # & REVENUE ROUTE
 @app.route('/revenue')
 @login_required
 @limiter.limit("30 per minute")
 def revenue():
+    # FETCH USER PRODUCTS
+    products_qty = Product.query.filter(Product.user==current_user.id).count()
+
+    # CHECK IF STORE IS SYNCED
+    if (products_qty == 0):
+        flash("There are not products listed!", "error")
+        return redirect(url_for('app.dashboard'))
+
     # EMPTY DATA ATTRIBUTES
     orders_info = []
     monthly_sales_qty = 0
@@ -121,16 +203,13 @@ def revenue():
     top_rev_cont_amt = 0
     failed_orders_amt = 0
 
-    # FETCH USER PRODUCTS
-    products_qty = Product.query.filter(Product.user==current_user.id).count()
-
     for product in current_user.products:
         # FETCH ORDER INFO ON 1-MONTH TIME-FRAME
         monthly_orders = Order.query.filter(
             Order.user == current_user.id,
             Order.product_id == product.id,
             Order.status == 'accepted',
-            extract('month', Order.ordered_on) == date.today().month,
+            extract('month', Order.ordered_on) == today.month,
         ).count()
 
         # FETCH ORDER INFO ON 1-YEAR TIME-FRAME
@@ -138,7 +217,7 @@ def revenue():
             Order.user == current_user.id,
             Order.product_id == product.id,
             Order.status == 'accepted',
-            extract('year', Order.ordered_on) == date.today().year,
+            extract('year', Order.ordered_on) == today.year,
         ).count()
 
         # POPULATE DATA
@@ -156,7 +235,7 @@ def revenue():
     failed_info = Order.query.filter(
         Order.user == current_user.id,
         Order.status == 'rejected',
-        extract('month', Order.ordered_on) == date.today().month,
+        extract('month', Order.ordered_on) == today.month,
     ).all()
 
     for info in failed_info:
@@ -185,13 +264,6 @@ def revenue():
 @login_required
 @limiter.limit("30 per minute")
 def download_revenue():
-    return render_template('pages/revenue.html')
-
-# | EXPORT ORDERS ROUTE
-@app.route('/revenue/export-orders')
-@login_required
-@limiter.limit("30 per minute")
-def export_orders():
     return render_template('pages/revenue.html')
 
 
@@ -475,13 +547,13 @@ def account():
     # COUNT CURRENT MONTH'S GENERATIONS
     month_captions_count = Caption.query.filter(
         Caption.user == current_user.id,
-        extract('month', Caption.created_at) == date.today().month,
+        extract('month', Caption.created_at) == today.month,
         Caption.deleted == False
     ).count()
 
     month_headlines_count = Headline.query.filter(
         Headline.user == current_user.id,
-        extract('month', Headline.created_at) == date.today().month,
+        extract('month', Headline.created_at) == today.month,
         Headline.deleted == False
     ).count()
 
@@ -490,12 +562,12 @@ def account():
     # COUNT TODAY'S GENERATIONS
     today_caption_count = Caption.query.filter(
         Caption.user == current_user.id,
-        Caption.created_at == date.today()
+        Caption.created_at == today
     ).count()
 
     today_headline_count = Headline.query.filter(
         Headline.user == current_user.id,
-        Headline.created_at == date.today()
+        Headline.created_at == today
     ).count()
 
     today_gens = today_caption_count + today_headline_count

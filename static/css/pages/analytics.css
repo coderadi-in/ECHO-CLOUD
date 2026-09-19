@@ -1,0 +1,42 @@
+/* ================================================== */
+/* BASIC */
+/* ================================================== */
+
+main { height: calc(100dvh - 90px); }
+
+/* ================================================== */
+/* SIDEBAR */
+/* ================================================== */
+
+.sidebar { max-width: min(360px, 100%); }
+
+.sidebar .body .product-info:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 12px;
+}
+
+/* ================================================== */
+/* INFO-GRID */
+/* ================================================== */
+
+.info-grid .info-card .icon-content { background-color: var(--color-chart-background); }
+
+.info-grid .info-card .info_text {
+    background-color: var(--color-accent-main);
+    color: #F8F7FF;
+}
+
+/* ================================================== */
+/* ANALYTICS TABLE */
+/* ================================================== */
+
+.analytics-table .analytics-row.row-head { border-bottom: 1px solid var(--color-border); }
+
+.analytics-table .analytics-row .order-status {
+    padding: 8px 12px;
+    border-radius: 24px;
+    background-color: var(--color-tertiary);
+    color: #F8F7FF;
+    width: fit-content;
+    cursor: pointer;
+}
