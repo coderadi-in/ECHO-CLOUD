@@ -32,11 +32,42 @@ main { height: calc(100dvh - 90px); }
 
 .analytics-table .analytics-row.row-head { border-bottom: 1px solid var(--color-border); }
 
+.analytics-table .analytics-row .order-id {
+    position: relative;
+    anchor-name: --idAnchor;
+}
+
+.analytics-table .analytics-row .order-status {
+    position: relative;
+    anchor-name: --statusAnchor;
+}
+
+.analytics-table .analytics-row .popover {
+    position-area: bottom right;
+    position-try-fallbacks: top right, top left, bottom left;
+    border-radius: 12px;
+}
+.analytics-table .analytics-row .popover.open { transform: scale(1); }
+
+.analytics-table .analytics-row .id-popover { position-anchor: --idAnchor; }
+.analytics-table .analytics-row .status-popover { position-anchor: --statusAnchor; }
+
+.analytics-table .analytics-row .popover .popover__inner {
+    padding: 8px;
+    color: var(--color-text-main);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .analytics-table .analytics-row .order-status {
     padding: 8px 12px;
     border-radius: 24px;
-    background-color: var(--color-tertiary);
     color: #F8F7FF;
     width: fit-content;
     cursor: pointer;
 }
+
+.analytics-table .analytics-row .order-status.status-unrecognized { background-color: var(--color-tertiary); }
+.analytics-table .analytics-row .order-status.status-accepted { background-color: var(--color-state-green); }
+.analytics-table .analytics-row .order-status.status-rejected { background-color: var(--color-state-red); }

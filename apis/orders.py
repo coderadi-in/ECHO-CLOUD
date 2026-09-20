@@ -117,7 +117,6 @@ def fetch_orders_by_date_range():
 
     # VALIDATE VALUES
     if (not start_date) or (not end_date):
-        print(start_date, end_date) # ! DEBUGGING
         return jsonify({
             'status': 400,
             'message': "Can't fetch date range."
@@ -133,7 +132,9 @@ def fetch_orders_by_date_range():
     orders_json = [{
         'id': order.id,
         'ordered_on': order.ordered_on.strftime('%d|%m|%Y'),
+        'product': Product.query.get(order.product_id).title,
         'amount': Product.query.get(order.product_id).price,
+        'qty': order.quantity,
         'status': order.status
     } for order in orders_list]
 
@@ -151,17 +152,13 @@ def fetch_orders_by_date_range():
 @orders.route('/push', methods=['POST'])
 @limiter.limit("100 per minute")
 def push_order():
-    print("Got a request!")
     # SOURCE VALIDATION
     source_url = request.origin
     user = User.query.filter(
         User.site_url.contains(source_url)
     ).first()
 
-    print(source_url, user)
-
     if (not user):
-        print("Couldn't find user")
         return jsonify({
             'status': 403,
             'message': 'The source looks suspicious'
@@ -172,7 +169,6 @@ def push_order():
 
     # VALIDATE SOURCE DATA
     if (not Product.query.get(source_id)):
-        print("Couldn't find product")
         return jsonify({
             'status': 422,
             'message': "The source id isn't compatible."

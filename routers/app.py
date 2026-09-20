@@ -166,6 +166,7 @@ def analytics():
     # RETURN RESPONSE
     return render_template('pages/analytics.html', data={
         'orders_info': orders_info,
+        'products_qty': products_qty,
         'orders': {
             'yearly': yearly_count,
             'monthly': monthly_count,

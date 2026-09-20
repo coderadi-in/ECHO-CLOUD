@@ -6,7 +6,7 @@ Manages all socket listeners.
 
 # ? IMPORTS
 from plugins import *
-from models import Caption, Headline
+from models import *
 from ai import SystemPrompts, TokenSize
 
 # & CAPTION GENERATION
@@ -126,3 +126,35 @@ def generate_response(data: str) -> str:
 
     # EMIT OUTPUT
     socket.emit("response-cl", { 'response': response['output'] })
+
+# & ORDER STATUS UPDATING
+@socket.on("order-status-update-sys")
+def update_order_status(data) -> int:
+    # ACCESS DATA
+    order_id = data.get('orderId')
+    new_status = data.get('newStatus')
+
+    if (
+        (not data)
+        or (not order_id)
+        or (not new_status)
+        or (new_status not in ['accepted', 'rejected', 'unrecognized'])
+    ):
+        socket.emit('order-status-update-cl', 400)
+        return
+
+    try:
+        order = Order.query.get(int(order_id))
+        if (not order): 
+            socket.emit('order-status-update-cl', 404)
+            return 404
+
+        order.status = new_status
+        db.session.commit()
+
+        socket.emit('order-status-update-cl', 200)
+        return
+
+    except:
+        socket.emit('order-status-update-cl', 500)
+        return 

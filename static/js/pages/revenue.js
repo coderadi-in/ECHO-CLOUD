@@ -5,6 +5,7 @@
 // ? ELEMENT REFERENCES
 const growthChart = document.getElementById('growthChart').getContext('2d');
 const contributionChart = document.getElementById('contributionChart').getContext('2d');
+const productSearch = document.getElementById('searchProduct');
 
 // ? AUXILIARY REFERENCES
 const hrefOrigin = window.location.origin;
@@ -96,6 +97,20 @@ async function renderContributionChart() {
     return chart.destroy;
 }
 
+// * FUNCTION TO SEARCH FOR PRODUCTS BY KEYWORD
+function searchProducts(keyword) {
+    const products = document.querySelectorAll('.product-info');
+
+    if (keyword.trim() === '') {
+        products.forEach(product => { product.style.display = 'flex'; })    
+    }
+
+    products.forEach(product => {
+        const productTitle = product.querySelector('.product-title');
+        if (!productTitle.textContent.includes(keyword)) { product.style.display = 'none'; }
+    });
+}
+
 // ==================================================
 // EVENT LISTENERS
 // ==================================================
@@ -105,3 +120,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderGrowthChart();
     renderContributionChart();
 });
+
+// & EVENT LISTENER FOR PRODUCT SEARCH
+productSearch.addEventListener('input', () => { searchProducts(productSearch.value); })
