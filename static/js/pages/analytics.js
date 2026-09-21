@@ -10,6 +10,10 @@ const productSearch = document.getElementById('searchProduct');
 
 // ? API REFERENCES
 const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
+const QTIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-time`;
+const QSTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-status`;
+const ATIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-time`;
+const ASTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-status`;
 
 // ==================================================
 // IMPORTS
@@ -21,6 +25,81 @@ import { sendToastNotification } from '../components/toast.js';
 // ==================================================
 // FUNCTIONS
 // ==================================================
+
+// * FUNCTION TO UPDATE TIME COMPARATIVE VALUE
+async function _fetchTimeComparativeValue(timeFrame, mode) {
+    // FETCH VALUES FROM API
+    const endPoint = mode==='qty'?QTIME_COMPARE_API_ENDPOINT:ATIME_COMPARE_API_ENDPOINT
+    const response = await fetch(endPoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({ timePeriod: timeFrame, }),
+    });
+
+    if (!response.ok) {
+        sendToastNotification("Can't fetch matrices!", "error", "var(--color-state-red)");
+        return 0;
+    }
+
+    const data = await response.json();
+    const value = data.output;
+    return value;
+}
+
+// * FUNCTION TO UPDATE STATUS COMPARATIVE VALUE
+async function _fetchStatusComparativeValue(status, mode) {
+    // FETCH VALUES FROM API
+    const endPoint = mode==='qty'?QSTATUS_COMPARE_API_ENDPOINT:ASTATUS_COMPARE_API_ENDPOINT
+    const response = await fetch(endPoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({ orderStatus: status, }),
+    });
+
+    if (!response.ok) {
+        sendToastNotification("Can't fetch matrices!", "error", "var(--color-state-red)");
+        return 0;
+    }
+
+    const data = await response.json();
+    const value = data.output;
+    return value;
+}
+
+// * FUNCTION TO ADD COMPARATIVE VALUES IN PAGE
+async function addComparativeValues() {
+    const deltaMonthly = await _fetchTimeComparativeValue('month', 'qty');
+    const deltaYearly = await _fetchTimeComparativeValue('year', 'qty');
+    const deltaFailed = await _fetchStatusComparativeValue('rejected', 'qty');
+
+    const monthlyDeltaElem = document.getElementById('deltaYearly')
+    const yearlyDeltaElem = document.getElementById('deltaMonthly')
+    const failedDeltaElem = document.getElementById('deltaFailed');
+
+    if (deltaMonthly >= 0) {
+        monthlyDeltaElem.textContent = `+ ${Math.abs(deltaMonthly)}%`;
+        monthlyDeltaElem.classList.add('status-green');
+    } else {
+        monthlyDeltaElem.textContent = `- ${Math.abs(deltaMonthly)}%`;
+        monthlyDeltaElem.classList.add('status-red');
+    }
+    
+    if (deltaYearly >= 0) {
+        yearlyDeltaElem.textContent = `+ ${Math.abs(deltaYearly)}%`;
+        yearlyDeltaElem.classList.add('status-green');
+    } else {
+        yearlyDeltaElem.textContent = `- ${Math.abs(deltaYearly)}%`;
+        yearlyDeltaElem.classList.add('status-red');
+    }
+
+    if (deltaFailed <= 0) {
+        failedDeltaElem.textContent = `- ${Math.abs(deltaFailed)}%`;
+        failedDeltaElem.classList.add('status-green');
+    } else {
+        failedDeltaElem.textContent = `+ ${Math.abs(deltaFailed)}%`;
+        failedDeltaElem.classList.add('status-red');
+    }
+}
 
 // * FUNCTION TO FORMAT DATE
 function formatDate(date) {
@@ -221,6 +300,7 @@ function searchProducts(keyword) {
 document.addEventListener('DOMContentLoaded', () => {
     fillDefaultDateRange();
     updateOrderTable();
+    addComparativeValues();
 });
 
 // & EVENT LISTENER FOR DATE MODIFICATION

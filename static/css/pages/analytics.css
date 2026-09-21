@@ -21,10 +21,9 @@ main { height: calc(100dvh - 90px); }
 
 .info-grid .info-card .icon-content { background-color: var(--color-chart-background); }
 
-.info-grid .info-card .info_text {
-    background-color: var(--color-accent-main);
-    color: #F8F7FF;
-}
+.info-grid .info-card .info_text { color: #F8F7FF; }
+.info-grid .info-card .info_text.status-green { background-color: var(--color-state-green); }
+.info-grid .info-card .info_text.status-red { background-color: var(--color-state-red); }
 
 /* ================================================== */
 /* ANALYTICS TABLE */

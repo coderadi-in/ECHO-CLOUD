@@ -225,6 +225,7 @@ def revenue():
         monthly_sales_qty += monthly_orders
 
         orders_info.append({
+            'id': product.id,
             'title': product.title,
             'price': product.price,
             'orders': monthly_orders,
@@ -245,8 +246,8 @@ def revenue():
 
     monthly_sales_amount = sum([info['monthly_sales'] for info in orders_info])
     yearly_sales_amount = sum([info['yearly_sales'] for info in orders_info])
-    bestseller_prod_order_qty = max([info['orders'] for info in orders_info])
-    top_rev_cont_amt = max([info['monthly_sales'] for info in orders_info])
+    bestseller_prod_order_qty = max([(info['orders'], info['id']) for info in orders_info])
+    top_rev_cont_amt = max([(info['monthly_sales'], info['id']) for info in orders_info])
 
     return render_template('pages/revenue.html', data={
         'products_qty': products_qty,
@@ -255,8 +256,14 @@ def revenue():
         'sales': { 'yearly': yearly_sales_amount, 'monthly': monthly_sales_amount },
         'failed_amount': failed_orders_amt,
         'crown': {
-            'bestseller': bestseller_prod_order_qty,
-            'top_rev': top_rev_cont_amt,
+            'bestseller': {
+                'qty': bestseller_prod_order_qty[0],
+                'id': bestseller_prod_order_qty[1]
+            },
+            'top_rev': {
+                'amt': top_rev_cont_amt[0],
+                'id': top_rev_cont_amt[1]
+            },
         },
     })
 

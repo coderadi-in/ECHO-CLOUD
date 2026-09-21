@@ -11,10 +11,18 @@ const productSearch = document.getElementById('searchProduct');
 const hrefOrigin = window.location.origin;
 const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 const colorShades = [
-    '#34623F', '#568259', '#FFF689', '#FAF4D3',
+    '#34623F', '#568259', '#F07167', '#E3B5CE',
     '#F6BE9A', '#FFCF9C', '#00A7E1', '#A5A5A5',
     '#8D98A7', '#A15E49', '#947BD3', '#DECBB7',
 ];
+
+// ? API REFERENCES
+const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
+const QTIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-time`;
+const QSTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-status`;
+const ATIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-time`;
+const ASTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-status`;
+const PRODUCT_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/product`
 
 // ! TEMPORARY REFERENCES
 const barChartOptions = {
@@ -27,8 +35,137 @@ const barChartOptions = {
 }
 
 // ==================================================
+// IMPORTS
+// ==================================================
+
+import { sendToastNotification } from '../components/toast.js';
+
+// ==================================================
 // FUNCTIONS
 // ==================================================
+
+// * FUNCTION TO FETCH PRODUCT COMPARATIVE VALUE
+async function _fetchProductComparativeValue(productId) {
+    const response = await fetch(PRODUCT_COMPARE_API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({ productId: productId, }),
+    });
+
+    if (!response.ok) {
+        sendToastNotification("Can't fetch matrices!", "error", "var(--color-state-red)");
+        return 0;
+    }
+
+    const data = await response.json();
+    const value = data.output;
+    return value;
+}
+
+// * FUNCTION TO FETCH TIME COMPARATIVE VALUE
+async function _fetchTimeComparativeValue(timeFrame, mode) {
+    // FETCH VALUES FROM API
+    const endPoint = mode==='qty'?QTIME_COMPARE_API_ENDPOINT:ATIME_COMPARE_API_ENDPOINT
+    const response = await fetch(endPoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({ timePeriod: timeFrame, }),
+    });
+
+    if (!response.ok) {
+        sendToastNotification("Can't fetch matrices!", "error", "var(--color-state-red)");
+        return 0;
+    }
+
+    const data = await response.json();
+    const value = data.output;
+    return value;
+}
+
+// * FUNCTION TO FETCH STATUS COMPARATIVE VALUE
+async function _fetchStatusComparativeValue(status, mode) {
+    // FETCH VALUES FROM API
+    const endPoint = mode==='qty'?QSTATUS_COMPARE_API_ENDPOINT:ASTATUS_COMPARE_API_ENDPOINT
+    const response = await fetch(endPoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({ orderStatus: status, }),
+    });
+
+    if (!response.ok) {
+        sendToastNotification("Can't fetch matrices!", "error", "var(--color-state-red)");
+        return 0;
+    }
+
+    const data = await response.json();
+    const value = data.output;
+    return value;
+}
+
+// * FUNCTION TO ADD COMPARATIVE VALUES IN PAGE
+async function addComparativeValues() {
+    const monthlyDeltaElem = document.getElementById('deltaYearly');
+    const yearlyDeltaElem = document.getElementById('deltaMonthly');
+    const failedDeltaElem = document.getElementById('deltaFailed');
+    const totalDeltaElem = document.getElementById('deltaTotal');
+    const bestsellerDeltaElem = document.getElementById('deltaBestseller');
+    const topRevDeltaElem = document.getElementById('deltaRevenueCont');
+
+    const deltaMonthly = await _fetchTimeComparativeValue('month', 'qty');
+    const deltaYearly = await _fetchTimeComparativeValue('year', 'qty');
+    const deltaFailed = await _fetchStatusComparativeValue('rejected', 'qty');
+    const deltaTotal = await _fetchTimeComparativeValue('month', 'qty');
+    const deltaBestseller = await _fetchProductComparativeValue(bestsellerDeltaElem.dataset.productId);
+    const deltaTopRev = await _fetchProductComparativeValue(topRevDeltaElem.dataset.productId);
+
+    if (deltaMonthly >= 0) {
+        monthlyDeltaElem.textContent = `+ ${Math.abs(deltaMonthly)}%`;
+        monthlyDeltaElem.classList.add('status-green');
+    } else {
+        monthlyDeltaElem.textContent = `- ${Math.abs(deltaMonthly)}%`;
+        monthlyDeltaElem.classList.add('status-red');
+    }
+    
+    if (deltaYearly >= 0) {
+        yearlyDeltaElem.textContent = `+ ${Math.abs(deltaYearly)}%`;
+        yearlyDeltaElem.classList.add('status-green');
+    } else {
+        yearlyDeltaElem.textContent = `- ${Math.abs(deltaYearly)}%`;
+        yearlyDeltaElem.classList.add('status-red');
+    }
+
+    if (deltaFailed <= 0) {
+        failedDeltaElem.textContent = `- ${Math.abs(deltaFailed)}%`;
+        failedDeltaElem.classList.add('status-green');
+    } else {
+        failedDeltaElem.textContent = `+ ${Math.abs(deltaFailed)}%`;
+        failedDeltaElem.classList.add('status-red');
+    }
+
+    if (deltaTotal >= 0) {
+        totalDeltaElem.textContent = `+ ${deltaTotal}%`;
+        totalDeltaElem.classList.add('status-green');
+    } else {
+        totalDeltaElem.textContent = `- ${deltaTotal}%`;
+        totalDeltaElem.classList.add('status-red');
+    }
+
+    if (deltaBestseller >= 0) {
+        bestsellerDeltaElem.textContent = `+ ${deltaBestseller}%`;
+        bestsellerDeltaElem.classList.add('status-green');
+    } else {
+        bestsellerDeltaElem.textContent = `- ${deltaBestseller}%`;
+        bestsellerDeltaElem.classList.add('status-red');
+    }
+
+    if (deltaTopRev >= 0) {
+        topRevDeltaElem.textContent = `+ ${deltaTopRev}%`;
+        topRevDeltaElem.classList.add('status-green');
+    } else {
+        topRevDeltaElem.textContent = `- ${deltaTopRev}%`;
+        topRevDeltaElem.classList.add('status-red');
+    }
+}
 
 // * FUNCTION TO GENERATE RANDOM HEX
 function getRandomHexColor() {
@@ -119,6 +256,7 @@ function searchProducts(keyword) {
 document.addEventListener('DOMContentLoaded', async () => {
     renderGrowthChart();
     renderContributionChart();
+    addComparativeValues();
 });
 
 // & EVENT LISTENER FOR PRODUCT SEARCH

@@ -46,7 +46,7 @@
 
                     <div class="right-side text-right">
                         <p class="para">₹ {{ order.monthly_sales }}</p>
-                        <p class="para">{{ order.orders }} orders</p>
+                        <p class="para">{{ order.orders }} order(s)</p>
                     </div>
                 </div>
                 {% endfor %}
@@ -77,7 +77,7 @@
                     </div>
 
                     <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 12%</span>
+                        <span class="text ph-12 pv-8 rounded-full info_text" id="deltaYearly">+ 0%</span>
                         <span class="text">vs last year</span>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 12%</span>
+                        <span class="text ph-12 pv-8 rounded-full info_text" id="deltaMonthly">+ 0%</span>
                         <span class="text">vs last month</span>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                     </div>
 
                     <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">- 10%</span>
+                        <span class="text ph-12 pv-8 rounded-full info_text" id="deltaFailed">- 0%</span>
                         <span class="text">vs last month</span>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                     </div>
 
                     <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 20%</span>
+                        <span class="text ph-12 pv-8 rounded-full info_text" id="deltaTotal">+ 0%</span>
                         <span class="text">vs last month</span>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Bestselling Product</span>
-                            <h1 class="h1">{{ data.crown.bestseller }}</h1>
+                            <h1 class="h1">{{ data.crown.bestseller.qty }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -149,7 +149,7 @@
                     </div>
 
                     <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 40%</span>
+                        <span class="text ph-12 pv-8 rounded-full info_text" id="deltaBestseller" data-product-id="{{ data.crown.bestseller.id }}">+ 0%</span>
                         <span class="text">vs last month</span>
                     </div>
                 </div>
@@ -158,7 +158,7 @@
                     <div class="head row h-sb">
                         <div class="left-row column gap-4">
                             <span class="mini uppercase">Top Revenue Contributor</span>
-                            <h1 class="h1">₹ {{ data.crown.top_rev }}</h1>
+                            <h1 class="h1">₹ {{ data.crown.top_rev.amt }}</h1>
                         </div>
 
                         <div class="icon-content p-12 rounded-12">
@@ -167,7 +167,7 @@
                     </div>
 
                     <div class="body row h-sb">
-                        <span class="text ph-12 pv-8 rounded-full info_text">+ 10%</span>
+                        <span class="text ph-12 pv-8 rounded-full info_text" id="deltaRevenueCont" data-product-id="{{ data.crown.top_rev.id }}">+ 0%</span>
                         <span class="text">vs last month</span>
                     </div>
                 </div>

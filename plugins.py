@@ -17,6 +17,7 @@ from openai import OpenAI, APIConnectionError
 import os, time
 from sqlalchemy import extract
 from datetime import datetime, date, timedelta
+from dateutil.relativedelta import relativedelta
 from typing import Literal
 import requests
 from bs4 import BeautifulSoup
