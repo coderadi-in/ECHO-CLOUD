@@ -40,16 +40,19 @@ def compare_qty_by_time():
                 Order.user==current_user.id,
                 Order.status=='accepted',
                 extract('month', Order.ordered_on) == today.month,
-            ).count()
+            ).all()
 
             last_orders_count = Order.query.filter(
                 Order.user==current_user.id,
                 Order.status=='accepted',
                 extract('month', Order.ordered_on) == last_month.month,
-            ).count()
+            ).all()
 
-            delta_orders = current_orders_count - last_orders_count
-            delta_percentage = delta_orders / last_orders_count * 100
+            current_orders_qty = sum([order.quantity for order in current_orders_count])
+            last_orders_qty = sum([order.quantity for order in last_orders_count])
+
+            delta_orders = current_orders_qty - last_orders_qty
+            delta_percentage = delta_orders / last_orders_qty * 100
 
             return jsonify({
                 'status': 200,
@@ -63,16 +66,19 @@ def compare_qty_by_time():
                 Order.user==current_user.id,
                 Order.status=='accepted',
                 extract('year', Order.ordered_on) == today.year,
-            ).count()
+            ).all()
 
             last_orders_count = Order.query.filter(
                 Order.user==current_user.id,
                 Order.status=='accepted',
                 extract('year', Order.ordered_on) == last_month.year,
-            ).count()
+            ).all()
 
-            delta_orders = current_orders_count - last_orders_count
-            delta_percentage = delta_orders / last_orders_count * 100
+            current_orders_qty = sum([order.quantity for order in current_orders_count])
+            last_orders_qty = sum([order.quantity for order in last_orders_count])
+
+            delta_orders = current_orders_qty - last_orders_qty
+            delta_percentage = delta_orders / last_orders_qty * 100
 
             return jsonify({
                 'status': 200,
@@ -113,16 +119,19 @@ def compare_qty_by_status():
             Order.user==current_user.id,
             Order.status==order_status,
             extract('month', Order.ordered_on) == today.month,
-        ).count()
+        ).all()
 
         last_orders_count = Order.query.filter(
             Order.user==current_user.id,
             Order.status==order_status,
             extract('month', Order.ordered_on) == last_month.month,
-        ).count()
+        ).all()
 
-        delta_orders = current_orders_count - last_orders_count
-        delta_percentage = delta_orders / last_orders_count * 100
+        current_orders_qty = sum([order.quantity for order in current_orders_count])
+        last_orders_qty = sum([order.quantity for order in last_orders_count])
+
+        delta_orders = current_orders_qty - last_orders_qty
+        delta_percentage = delta_orders / last_orders_qty * 100
 
         return jsonify({
             'status': 200,
@@ -160,8 +169,8 @@ def compare_amt_by_time():
                 extract('month', Order.ordered_on) == last_month.month,
             ).all()
 
-            current_order_amt = sum([Product.query.get(order.product_id).price for order in current_orders_count])
-            last_order_amt = sum([Product.query.get(order.product_id).price for order in last_orders_count])
+            current_order_amt = sum([Product.query.get(order.product_id).price * order.quantity for order in current_orders_count])
+            last_order_amt = sum([Product.query.get(order.product_id).price * order.quantity for order in last_orders_count])
 
             delta_orders = current_order_amt - last_order_amt
             delta_percentage = delta_orders / last_order_amt * 100
@@ -239,8 +248,8 @@ def compare_amt_by_status():
             extract('month', Order.ordered_on) == last_month.month,
         ).all()
 
-        current_order_amt = sum([Product.query.get(order.product_id).price for order in current_orders_count])
-        last_order_amt = sum([Product.query.get(order.product_id).price for order in last_orders_count])
+        current_order_amt = sum([Product.query.get(order.product_id).price * order.quantity for order in current_orders_count])
+        last_order_amt = sum([Product.query.get(order.product_id).price * order.quantity for order in last_orders_count])
 
         delta_orders = current_order_amt - last_order_amt
         delta_percentage = delta_orders / last_order_amt * 100
@@ -282,18 +291,21 @@ def compare_product_qty():
             Order.product_id == product_id,
             extract('month', Order.ordered_on) == today.month,
             Order.status == 'accepted',
-        ).count()
+        ).all()
     
         last_month_sales = Order.query.filter(
             Order.user == current_user.id,
             Order.product_id == product_id,
             extract('month', Order.ordered_on) == last_month.month,
             Order.status == 'accepted',
-        ).count()
+        ).all()
+
+        current_month_qty = sum([order.quantity for order in current_month_sales])
+        last_month_qty = sum([order.quantity for order in last_month_sales])
     
         # CALCULATE DELTA
-        delta_numerical = current_month_sales - last_month_sales
-        delta_percentage = delta_numerical / last_month_sales * 100
+        delta_numerical = current_month_qty - last_month_qty
+        delta_percentage = delta_numerical / last_month_qty * 100
     
         return jsonify({
             'status': 200,

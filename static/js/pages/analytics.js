@@ -7,6 +7,7 @@ const fromDate = document.getElementById('fromDate');
 const toDate = document.getElementById('toDate');
 const analyticsTableBody = document.querySelector('.analytics-table .analytics-body');
 const productSearch = document.getElementById('searchProduct');
+const exportAnalyticsBtn = document.getElementById('exportAnalytics');
 
 // ? API REFERENCES
 const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
@@ -14,6 +15,7 @@ const QTIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compa
 const QSTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-status`;
 const ATIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-time`;
 const ASTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-status`;
+const EXPORT_DATA_API_ENDPOINT = `${window.location.origin}/api/data_exporter/analytics`;
 
 // ==================================================
 // IMPORTS
@@ -25,6 +27,34 @@ import { sendToastNotification } from '../components/toast.js';
 // ==================================================
 // FUNCTIONS
 // ==================================================
+
+// * FUNCTION TO FETCH EXPORT DATA
+async function _fetchExportedData() {
+    // FETCH DATA
+    const response = await fetch(EXPORT_DATA_API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({
+            startRange: null,
+            endRange: null,
+        }),
+    });
+
+    // CHECK RESPONSE
+    if (!response.ok) {
+        sendToastNotification("Can't export data.", "error", "var(--color-state-red)");
+        return;
+    }
+
+    // DOWNLOAD RESPONSE
+    const blob = await response.blob();
+    const dataURL = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = dataURL;
+    downloadLink.download = "revenue.csv";
+    downloadLink.click();
+    downloadLink.remove();
+}
 
 // * FUNCTION TO UPDATE TIME COMPARATIVE VALUE
 async function _fetchTimeComparativeValue(timeFrame, mode) {
@@ -309,6 +339,9 @@ toDate.addEventListener('change', updateOrderTable);
 
 // & EVENT LISTENER FOR PRODUCT SEARCH
 productSearch.addEventListener('input', () => { searchProducts(productSearch.value); })
+
+// & EVENT LISTENER FOR EXPORT BUTTON CLICK
+exportAnalyticsBtn.addEventListener('click', _fetchExportedData);
 
 // ==================================================
 // SOCKET LISTENERS

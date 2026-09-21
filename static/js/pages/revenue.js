@@ -6,6 +6,7 @@
 const growthChart = document.getElementById('growthChart').getContext('2d');
 const contributionChart = document.getElementById('contributionChart').getContext('2d');
 const productSearch = document.getElementById('searchProduct');
+const exportRevenueBtn = document.getElementById('exportRevenue');
 
 // ? AUXILIARY REFERENCES
 const hrefOrigin = window.location.origin;
@@ -23,6 +24,7 @@ const QSTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/com
 const ATIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-time`;
 const ASTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-status`;
 const PRODUCT_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/product`
+const EXPORT_DATA_API_ENDPOINT = `${window.location.origin}/api/data_exporter/revenue`;
 
 // ! TEMPORARY REFERENCES
 const barChartOptions = {
@@ -43,6 +45,34 @@ import { sendToastNotification } from '../components/toast.js';
 // ==================================================
 // FUNCTIONS
 // ==================================================
+
+// * FUNCTION TO FETCH EXPORT DATA
+async function _fetchExportedData() {
+    // FETCH DATA
+    const response = await fetch(EXPORT_DATA_API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify({
+            startRange: null,
+            endRange: null,
+        }),
+    });
+
+    // CHECK RESPONSE
+    if (!response.ok) {
+        sendToastNotification("Can't export data.", "error", "var(--color-state-red)");
+        return;
+    }
+
+    // DOWNLOAD RESPONSE
+    const blob = await response.blob();
+    const dataURL = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = dataURL;
+    downloadLink.download = "revenue.csv";
+    downloadLink.click();
+    downloadLink.remove();
+}
 
 // * FUNCTION TO FETCH PRODUCT COMPARATIVE VALUE
 async function _fetchProductComparativeValue(productId) {
@@ -261,3 +291,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // & EVENT LISTENER FOR PRODUCT SEARCH
 productSearch.addEventListener('input', () => { searchProducts(productSearch.value); })
+
+// & EVENT LISTENER FOR EXPORT BUTTON CLICK
+exportRevenueBtn.addEventListener('click', _fetchExportedData);

@@ -44,11 +44,13 @@ def fetch_orders_by_year():
                 Order.status == 'accepted'
             ).all()
 
+            month_qty = sum([order.quantity for order in orders_info])
+
             for order_info in orders_info:
                 product_info = Product.query.get(order_info.product_id)
-                price_list.append(product_info.price)
+                price_list.append(product_info.price * month_qty)
 
-            orders_qty.append(len(orders_info))
+            orders_qty.append(month_qty)
             order_amounts.append(sum(price_list))
             
 
@@ -86,9 +88,11 @@ def fetch_prod_qty_by_month():
                 Order.product_id == product.id,
                 extract('month', Order.ordered_on) == today.month,
                 Order.status == 'accepted'
-            ).count()
+            ).all()
 
-            orders_list.append(orders_info)
+            order_qty = sum([order.quantity for order in orders_info])
+
+            orders_list.append(order_qty)
 
     except:
         return jsonify({
@@ -166,6 +170,8 @@ def push_order():
 
     # ACCESS SOURCE DATA
     source_id = request.form.get('product_id')
+    quantity = request.form.get('product_qty')
+    quantity = int(quantity) if quantity.isdigit() else 1
 
     # VALIDATE SOURCE DATA
     if (not Product.query.get(source_id)):
@@ -178,6 +184,7 @@ def push_order():
     new_order = Order(
         user=user.id,
         product_id=source_id,
+        quantity=quantity
     )
 
     # SAVE NEW ORDER TO DB

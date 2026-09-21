@@ -11,6 +11,7 @@ from .admin import admin
 from .ai import ai
 from .orders import orders
 from .matrices import matrices
+from .data import data_exporter
 
 # * FUNCTION TO BIND ALL APIs TO THE SERVER
 def bind_apis(server: Flask):
@@ -34,3 +35,4 @@ def bind_apis(server: Flask):
     server.register_blueprint(ai)
     server.register_blueprint(orders)
     server.register_blueprint(matrices)
+    server.register_blueprint(data_exporter)

@@ -109,7 +109,6 @@ def headlines():
 def editor():
     return render_template('pages/editor.html')
 
-
 # & ANALYTICS ROUTE
 @app.route('/analytics')
 @limiter.limit("30 per minute")
@@ -133,13 +132,15 @@ def analytics():
             Order.product_id==product.id,
             Order.status=='accepted',
             extract('month', Order.ordered_on) == today.month,
-        ).count()
+        ).all()
+
+        order_qty = sum([order.quantity for order in orders_count])
 
         orders_info.append({
             'title': product.title,
             'price': product.price,
-            'orders': orders_count,
-            'sales': orders_count * product.price
+            'orders': order_qty,
+            'sales': product.price * order_qty
         })
 
     # MONTHLY ORDERS COUNT
@@ -174,14 +175,6 @@ def analytics():
         }
     })
 
-# | DOWNLOAD ANALYTICS ROUTE
-@app.route('/analytics/download')
-@login_required
-@limiter.limit("30 per minute")
-def download_analytics():
-    return render_template('pages/analytics.html')
-
-
 # & REVENUE ROUTE
 @app.route('/revenue')
 @login_required
@@ -211,7 +204,7 @@ def revenue():
             Order.product_id == product.id,
             Order.status == 'accepted',
             extract('month', Order.ordered_on) == today.month,
-        ).count()
+        ).all()
 
         # FETCH ORDER INFO ON 1-YEAR TIME-FRAME
         yearly_orders = Order.query.filter(
@@ -219,18 +212,21 @@ def revenue():
             Order.product_id == product.id,
             Order.status == 'accepted',
             extract('year', Order.ordered_on) == today.year,
-        ).count()
+        ).all()
+
+        monthly_orders_qty = sum([order.quantity for order in monthly_orders])
+        yearly_orders_qty = sum([order.quantity for order in yearly_orders])
 
         # POPULATE DATA
-        monthly_sales_qty += monthly_orders
+        monthly_sales_qty += monthly_orders_qty
 
         orders_info.append({
             'id': product.id,
             'title': product.title,
             'price': product.price,
-            'orders': monthly_orders,
-            'monthly_sales': product.price * monthly_orders,
-            'yearly_sales': product.price * yearly_orders,
+            'orders': monthly_orders_qty,
+            'monthly_sales': product.price * monthly_orders_qty,
+            'yearly_sales': product.price * yearly_orders_qty,
         })
 
     # CALCULATE FAILED ORDERS AMOUNT
@@ -242,7 +238,7 @@ def revenue():
 
     for info in failed_info:
         amount = Product.query.get(info.product_id).price
-        failed_orders_amt += amount
+        failed_orders_amt += amount * info.quantity
 
     monthly_sales_amount = sum([info['monthly_sales'] for info in orders_info])
     yearly_sales_amount = sum([info['yearly_sales'] for info in orders_info])
@@ -266,14 +262,6 @@ def revenue():
             },
         },
     })
-
-# | DOWNLOAD REVENUE ROUTE
-@app.route('/revenue/download')
-@login_required
-@limiter.limit("30 per minute")
-def download_revenue():
-    return render_template('pages/revenue.html')
-
 
 # & CROPPER ROUTE
 @app.route('/cropper')
