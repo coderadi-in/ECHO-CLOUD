@@ -9,11 +9,18 @@ main { height: calc(100dvh - 90px); }
 /* ================================================== */
 
 .sidebar { max-width: min(360px, 100%); }
+.sidebar .body { overflow-y: auto; }
 
 .sidebar .body .product-info:not(:last-child) {
     border-bottom: 1px solid var(--color-border);
     padding-bottom: 12px;
 }
+
+/* ================================================== */
+/* ANALYTICS HEAD */
+/* ================================================== */
+
+.toggle-sidebar { display: none; }
 
 /* ================================================== */
 /* INFO-GRID */

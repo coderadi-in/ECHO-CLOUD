@@ -1,0 +1,38 @@
+/* ================================================== */
+/* 1440 PX */
+/* ================================================== */
+
+@media (max-width: 1440px) {
+    .sidebar { height: calc(100dvh - 90px); }
+}
+
+/* ================================================== */
+/* 1340 PX */
+/* ================================================== */
+
+@media (max-width: 1340px) {
+    .sidebar {
+        position: fixed;
+        top: 90px;
+        left: 0;
+        border-radius: 0;
+        background-color: var(--color-surface-alt);
+        backdrop-filter: blur(4px);
+        z-index: 12;
+        transform-origin: top left;
+        transform: scale(0);
+    }
+    .sidebar.open { transform: scale(1); }
+
+    .toggle-sidebar { display: inline; }
+    .sidebar .head .icon_content { display: none; }
+}
+
+/* ================================================== */
+/* 568 PX */
+/* ================================================== */
+
+@media (max-width: 568px) {
+    .analytics-table .analytics-body .analytics_data:nth-child(2),
+    .analytics-table .analytics-body .analytics_data:nth-child(3) { display: none; }
+}

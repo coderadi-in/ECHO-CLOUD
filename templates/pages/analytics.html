@@ -27,7 +27,8 @@
         <aside class="sidebar rounded-16 p-16 bg-card w-full h-full min-h-0 column gap-16 shadow">
             <div class="head row h-sb">
                 <div class="left-row row gap-12">
-                    <span class="symbol">orders</span>
+                    <span class="symbol toggle-sidebar">close</span>
+                    <span class="symbol icon_content">orders</span>
                     <h3 class="h3">Products</h3>
                 </div>
 
@@ -55,7 +56,10 @@
 
         <section class="analytics_content column gap-20 w-full">
             <div class="head res-row h-sb gap-12">
-                <h1 class="h1">Analytics</h1>
+                <div class="row gap-12">
+                    <span class="symbol toggle-sidebar">dock_to_right</span>
+                    <h1 class="h1">Analytics</h1>
+                </div>
 
                 <button class="link btn icon-fl rounded-8 ph-12 pv-8" id="exportAnalytics">
                     <span class="text">Export</span>
@@ -120,7 +124,7 @@
             </div>
 
             <div class="analytics-table column gap-24 p-16 rounded-16 bg-card shadow h-full">
-                <div class="analytics-head row h-sb">
+                <div class="analytics-head res-row h-sb gap-12">
                     <h3 class="h3">Orders</h3>
 
                     <div class="res-row gap-12">
@@ -138,10 +142,10 @@
 
                 <div class="analytics-body">
                     <div class="analytics-row row-head grid cols-4 p-12">
-                        <span class="text">Id</span>
-                        <span class="text">Date</span>
-                        <span class="text">Amount</span>
-                        <span class="text">Status</span>
+                        <span class="text analytics_data">Id</span>
+                        <span class="text analytics_data">Date</span>
+                        <span class="text analytics_data">Amount</span>
+                        <span class="text analytics_data">Status</span>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,30 @@
-@media (max-width: 1024px) {
-    .main_body { flex-direction: column; }
-    .info-col { max-width: 100%; }
+/* ================================================== */
+/* 1440 PX */
+/* ================================================== */
+
+@media (max-width: 1440px) {
+    .sidebar { height: calc(100dvh - 90px); }
+}
+
+/* ================================================== */
+/* 1340 PX */
+/* ================================================== */
+
+@media (max-width: 1340px) {
+    .sidebar { display: none; }
+}
+
+/* ================================================== */
+/* 968 PX */
+/* ================================================== */
+
+@media (max-width: 968px) {
+    .charts-content { flex-direction: column; }
+    
+    .charts-content .chart-area:nth-child(1) {
+        max-width: 100%;
+        min-height: 400px;
+    }
+
+    .charts-content .chart-area:nth-child(2) { max-width: 100%; }
 }

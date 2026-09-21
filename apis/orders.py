@@ -171,7 +171,7 @@ def push_order():
     # ACCESS SOURCE DATA
     source_id = request.form.get('product_id')
     quantity = request.form.get('product_qty')
-    quantity = int(quantity) if quantity.isdigit() else 1
+    quantity = int(quantity) if quantity else 1
 
     # VALIDATE SOURCE DATA
     if (not Product.query.get(source_id)):

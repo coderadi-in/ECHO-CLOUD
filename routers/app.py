@@ -590,16 +590,19 @@ def delete_account():
     if (not encoder.check_password_hash(current_user.password, password)):
         flash("Password mismatched!", "error")
         return redirect(url_for('app.account'))
+
+    # FUNCTION TO DELETE A LIST FROM DATABASE
+    def _delete_from_list(list_: list):
+        for data in list_:
+            db.session.delete(data)
     
     # DELETE ACCOUNT
-    for caption in current_user.captions:
-        db.session.delete(caption)
-
-    for headline in current_user.headlines:
-        db.session.delete(headline)
-
-    for saved in current_user.saved:
-        db.session.delete(saved)
+    _delete_from_list(current_user.captions)
+    _delete_from_list(current_user.headlines)
+    _delete_from_list(current_user.saved)
+    _delete_from_list(current_user.payments)
+    _delete_from_list(current_user.orders)
+    _delete_from_list(current_user.products)
 
     db.session.delete(current_user)
     db.session.commit()

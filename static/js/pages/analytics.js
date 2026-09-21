@@ -8,6 +8,8 @@ const toDate = document.getElementById('toDate');
 const analyticsTableBody = document.querySelector('.analytics-table .analytics-body');
 const productSearch = document.getElementById('searchProduct');
 const exportAnalyticsBtn = document.getElementById('exportAnalytics');
+const sidebar = document.querySelector('.sidebar');
+const toggleSidebarBtns = document.querySelectorAll('.toggle-sidebar');
 
 // ? API REFERENCES
 const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
@@ -255,13 +257,15 @@ function _createOrderRow(orderObject) {
     const statusPopover = _popoverCreator('status-popover', `status-${orderObject.id}`);
 
     // INITIATE ELEMENTS
-    const idElement = _elementCreator(`#${orderObject.id}`, ['btn', 'ulink', 'order-id'], 'button', `order-${orderObject.id}`);
-    const dateElement = _elementCreator(orderObject.ordered_on, ['text']);
-    const amountElement = _elementCreator(orderObject.amount, ['text']);
-    const statusElement = _elementCreator(orderObject.status || 'unrecognized', ['btn', 'text', 'order-status', `status-${orderObject.status}`], 'button', `status-${orderObject.id}`);
+    const idElement = _elementCreator(`#${orderObject.id}`, ['btn', 'ulink', 'order-id', 'analytics_data'], 'button', `order-${orderObject.id}`);
+    const dateElement = _elementCreator(orderObject.ordered_on, ['text', 'analytics_data']);
+    const amountElement = _elementCreator(orderObject.amount, ['text', 'analytics_data']);
+    const statusElement = _elementCreator(orderObject.status || 'unrecognized', ['btn', 'text', 'order-status', `status-${orderObject.status}`, 'analytics_data'], 'button', `status-${orderObject.id}`);
     
     const productTitle = _elementCreator(orderObject.product, ['text']);
     const productQty = _elementCreator(`QTY: ${orderObject.qty}`, ['text']);
+    const salesAmount = _elementCreator(`AMT: ${orderObject.amount}`, ['text']);
+    const salesDate = _elementCreator(`Date: ${orderObject.ordered_on}`, ['text']);
 
     const statusAccepted = _updaterCreator('accepted', ['link', 'status-updater']);
     const statusRejected = _updaterCreator('rejected', ['link', 'status-updater']);
@@ -275,6 +279,8 @@ function _createOrderRow(orderObject) {
 
     idPopover.inner.appendChild(productTitle);
     idPopover.inner.appendChild(productQty);
+    idPopover.inner.appendChild(salesAmount);
+    idPopover.inner.appendChild(salesDate);
     idPopover.outer.appendChild(idPopover.inner);
     wrapper.appendChild(idPopover.outer);
 
@@ -342,6 +348,14 @@ productSearch.addEventListener('input', () => { searchProducts(productSearch.val
 
 // & EVENT LISTENER FOR EXPORT BUTTON CLICK
 exportAnalyticsBtn.addEventListener('click', _fetchExportedData);
+
+// & EVENT LISTENER TO TOGGLE SIDEBAR
+toggleSidebarBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        console.log("Got a req");
+        sidebar.classList.toggle('open', !sidebar.classList.contains('open'));
+    });
+});
 
 // ==================================================
 // SOCKET LISTENERS
