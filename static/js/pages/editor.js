@@ -91,6 +91,10 @@ function animateGenSkeleton() {
     historyTab.style.opacity = "0.6";
     historyTab.style.cursor = "wait";
     historyTab.style.pointerEvents = "none";
+    
+    closeFrameBtn.style.visibility = 'hidden';
+    keepBtn.style.visibility = 'hidden';
+    regenBtn.style.visibility = 'hidden';
 
     const intervalId = setInterval(() => {
         lines.forEach(line => {
@@ -107,11 +111,15 @@ function animateGenSkeleton() {
         historyTab.style.cursor = "auto";
         historyTab.style.pointerEvents = "auto";
 
+        closeFrameBtn.style.visibility = 'visible';
+        keepBtn.style.visibility = 'visible';
+        regenBtn.style.visibility = 'visible';
+
         lines.forEach(line => {
             document.querySelector('.output-frame .head .fs-24').style.display = 'none';
             line.style.display = 'none';
             clearInterval(intervalId);
-        })
+        });
     }
 }
 
