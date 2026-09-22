@@ -241,7 +241,7 @@ function _createOrderRow(orderObject) {
                 orderId: orderObject.id,
                 newStatus: textContent
             });
-            const statusShower = document.querySelector('.order-status');
+            const statusShower = element.closest('.analytics-row').querySelector('.order-status');
             statusShower.textContent = textContent;
             statusShower.classList.remove('status-rejected', 'status-unrecognized', 'status-accepted');
             statusShower.classList.add(`status-${textContent}`);
@@ -251,7 +251,7 @@ function _createOrderRow(orderObject) {
     }
 
     // INITIATE WRAPPERS
-    const wrapper = document.createElement('div')
+    const wrapper = document.createElement('div');
     wrapper.classList.add('analytics-row', 'row-body', 'grid', 'cols-4', 'p-12', 'v-center');
     const idPopover = _popoverCreator('id-popover', `order-${orderObject.id}`);
     const statusPopover = _popoverCreator('status-popover', `status-${orderObject.id}`);
@@ -290,6 +290,12 @@ function _createOrderRow(orderObject) {
     statusPopover.outer.appendChild(statusPopover.inner);
     wrapper.appendChild(statusPopover.outer);
 
+    // POPOVER POSITIONING SPECIFIC BLOCK
+    idElement.style.anchorName = `--id${orderObject.id}Anchor`;
+    statusElement.style.anchorName = `--status${orderObject.id}Anchor`;
+    idPopover.outer.style.positionAnchor = `--id${orderObject.id}Anchor`;
+    statusPopover.outer.style.positionAnchor = `--status${orderObject.id}Anchor`;
+
     return wrapper;
 }
 
@@ -319,12 +325,14 @@ function searchProducts(keyword) {
     const products = document.querySelectorAll('.product-info');
 
     if (keyword.trim() === '') {
-        products.forEach(product => { product.style.display = 'flex'; })    
+        products.forEach(product => { product.style.display = 'flex'; });
     }
 
     products.forEach(product => {
         const productTitle = product.querySelector('.product-title');
-        if (!productTitle.textContent.includes(keyword)) { product.style.display = 'none'; }
+        const contentLower = productTitle.textContent.toLowerCase();
+        const keywordLower = keyword.toLowerCase();
+        if (!contentLower.includes(keywordLower)) { product.style.display = 'none'; }
     });
 }
 
@@ -344,7 +352,7 @@ fromDate.addEventListener('change', updateOrderTable);
 toDate.addEventListener('change', updateOrderTable);
 
 // & EVENT LISTENER FOR PRODUCT SEARCH
-productSearch.addEventListener('input', () => { searchProducts(productSearch.value); })
+productSearch.addEventListener('input', () => { searchProducts(productSearch.value); });
 
 // & EVENT LISTENER FOR EXPORT BUTTON CLICK
 exportAnalyticsBtn.addEventListener('click', _fetchExportedData);
