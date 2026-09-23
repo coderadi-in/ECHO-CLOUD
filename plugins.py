@@ -36,10 +36,19 @@ encoder = Bcrypt()
 migrator = Migrate()
 logger = LoginManager()
 limiter = Limiter(get_remote_address, default_limits=[ "200 per day", "50 per hour" ])
-client = Client(auth=(os.getenv("RZP_ID_TEST"), os.getenv("RZP_SECRET_TEST")))
+client = Client(auth=(os.getenv("RZP_ID"), os.getenv("RZP_SECRET")))
 
 # ! PLANS LIST
-ACCOUNT_PLANS = { "pro": 19900, }
+ACCOUNT_PLANS = {
+    "pro": {
+        'price': 29900,
+        'credits': 1_500,
+    },
+    "ultra": {
+        'price': 59900,
+        'credits': 10_000
+    },
+}
 
 # * FUNCTION TO EXTRACT ORIGIN FROM A URL
 def extract_origin(url: str) -> (str|None):
@@ -97,18 +106,24 @@ def bind_plugins(server: Flask) -> None:
     limiter.init_app(server)
 
 # * FUNCTION TO CREATE A PAYMENT ORDER
-def initiate_payment_order():
+def initiate_payment_order(plan: str):
     """
     Creates a Payment order using Razorpay.
     """
 
+    # FETCH PLAN
+    plan_info = ACCOUNT_PLANS.get(plan.lower());
+
+    if (not plan_info):
+        return { "status": 400, "order": None, }
+
     try:
         order = client.order.create({
-            "amount": 19900,
+            "amount": plan_info.get('price'),
             "currency": "INR",
             "notes": {
                 "user_id": current_user.id,
-                "plan": "Pro"
+                "plan": plan
             }
         })
 
@@ -274,9 +289,9 @@ def upgrade_plan(plan: str = "pro"):
         return { "status": 422, "message": "Invalid plan type." }
 
     # SET VALUE
-    T1 = current_user.total_credits # Old total credits of user
-    L1 = current_user.left_credits  # Old left credits of user
-    T2 = ACCOUNT_PLANS[plan]        # New total credits of user
+    T1 = current_user.total_credits                 # Old total credits of user
+    L1 = current_user.left_credits                  # Old left credits of user
+    T2 = ACCOUNT_PLANS.get(plan).get('credits')     # New total credits of user
 
     # PUT VALUES IN FORMULA
     G = T1 - L1 # G = Total number of generations.
@@ -286,7 +301,7 @@ def upgrade_plan(plan: str = "pro"):
     current_user.plan = plan
     current_user.total_credits = T2
     current_user.left_credits = L2
-    current_user.renewal_date = date.today() + timedelta(days=30)
+    current_user.renewal_date = date.today() + relativedelta(month=1)
     db.session.commit()
     return { "status": 200, "message": "User's plan type upgraded." }
 
@@ -303,7 +318,7 @@ def downgrade_plan():
     # DOWNGRADE USER'S PLAN
     current_user.plan = "free"
     current_user.total_credits, current_user.left_credits = 50, 50
-    current_user.renewal_date = date.today() + timedelta(days=30)
+    current_user.renewal_date = date.today() + relativedelta(month=1)
     db.session.commit()
     return { "status": 200, "message": "User's plan has been downgraded." }
 

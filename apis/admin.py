@@ -89,25 +89,33 @@ def create_promo():
     code = request.json.get('code')
     sponsor = request.json.get('sponsor')
     credits = request.json.get('credits')
+    discount = request.json.get('discount')
+    available_plans = request.json.get('available_plans')
     limit = request.json.get('limit')
     expiry = request.json.get('expiry')
 
+    # DATA VALIDATION
+    if (credits and discount):
+        discount = None
+
     # TYPECASTING & SPLITTING
-    credits = int(credits)
-    limit = int(limit)
+    credits = int(credits) if credits else None
+    discount = float(discount) if discount else None
+    limit = int(limit) if limit else None
     
-    exp_y, exp_m, exp_d = expiry.split("/")
-    expiry = date(
-        int(exp_y),
-        int(exp_m),
-        int(exp_d)
-    )
+    if expiry:
+        exp_d, exp_m, exp_y = expiry.split("/")
+        expiry = date(int(exp_y), int(exp_m), int(exp_d))
+    else:
+        expiry = None
 
     # CREATE NEW PROMO
     new_promo = PromoCode(
         code=code,
         sponsor=sponsor,
         credits=credits,
+        discount=discount,
+        available_plans=available_plans,
         limit=limit,
         expiry=expiry,
     )
@@ -118,13 +126,15 @@ def create_promo():
     return jsonify({
         "status": 200,
         "message": "New promo created successfully",
-        "promo_details": {
+        "output": {
             "id": new_promo.id,
             "code": code,
             "sponsor": sponsor,
             "credits": credits,
+            "discount": discount,
+            "available_plans": available_plans,
             "limit": limit,
-            "expiry": expiry
+            "expiry": expiry,
         }
     }), 200
 

@@ -58,28 +58,159 @@
             <div class="plans-column column gap-20">
                 <h2 class="h2">Available plans</h2>
 
-                <div class="pricing grid gap-20">
+                <div class="pricing grid cols-auto-320 gap-20">
                     <div class="card column gap-12 rounded-16 p-16 bg-card">
-                        <span class="text">Free</span>
-                        <h1 class="h1">50</h1>
-                        <span class="text">Credits/month</span>
+                        <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">Hobby</span>
+
+                        <div class="pricing-title column gap-4">
+                            <h1 class="h1 capitalize">Free</h1>
+                            <p class="para">To discover our product and its features.</p>
+                        </div>
+
+                        {% if current_user.plan.lower() == "free" %}
+                        <button class="link btn fl rounded-8 pv-16 w-full">
+                            <span class="text">Downgrades automatically</span>
+                        </button>
+                        {% endif %}
+
+                        <hr class="divider">
+
+                        <div class="column gap-8">
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">50 credits</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">Headline generation</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO EDITOR</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO STICKERS</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-red">close</span>
+                                <span class="text">ECHO ANALYTICS</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-red">close</span>
+                                <span class="text">ECHO REVENUE</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="card column gap-12 rounded-16 p-16 bg-card">
-                        <span class="text">Pro</span>
-                        <h1 class="h1">1500</h1>
-                        <span class="text">Credits/month</span>
-                    </div>
-                </div>
+                        <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">Pro</span>
 
-                <div class="upgrade-btn center">
-                    {% if current_user.plan.lower() == "free" %}
-                    <button class="link btn fl rounded-full pv-16 ph-32" id="upgradePro">
-                        <span class="text">Upgrade to Pro</span>
-                    </button>
-                    {% else %}
-                    <span class="text">You're already a Pro user.</span>
-                    {% endif %}
+                        <div class="pricing-title column gap-4">
+                            <div class="row v-en">
+                                <h1 class="h1 lowercase">₹ 299</h1>
+                                <span class="mini">/month</span>
+                            </div>
+                            <p class="para">Best option for small businesses &amp; startups.</p>
+                        </div>
+
+                        {% if current_user.plan.lower() == "free" %}
+                        <button class="link btn fl rounded-8 pv-16 w-full" id="upgradePro">
+                            <span class="text">Upgrade account</span>
+                        </button>
+                        {% endif %}
+
+                        <hr class="divider">
+
+                        <div class="column gap-8">
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">1,500 credits</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">Headline generation</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO EDITOR</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO STICKERS</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO ANALYTICS</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO REVENUE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card column gap-12 rounded-16 p-16 bg-card">
+                        <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">Ultra</span>
+
+                        <div class="pricing-title column gap-4">
+                            <div class="row v-en">
+                                <h1 class="h1 lowercase">₹ 599</h1>
+                                <span class="mini">/month</span>
+                            </div>
+                            <p class="para">For serious businesses and professionals.</p>
+                        </div>
+
+                        {% if current_user.plan.lower() == "free" %}
+                        <button class="link btn fl rounded-8 pv-16 w-full" id="upgradeUltra">
+                            <span class="text">Upgrade account</span>
+                        </button>
+                        {% endif %}
+
+                        <hr class="divider">
+
+                        <div class="column gap-8">
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">10,000 credits</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">Headline generation</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO EDITOR</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO STICKERS</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO ANALYTICS</span>
+                            </div>
+
+                            <div class="row gap-12">
+                                <span class="symbol state-green">check</span>
+                                <span class="text">ECHO REVENUE</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -96,7 +227,7 @@
             <div class="payments-history column gap-20 min-h-0">
                 <div class="head res-row h-sb gap-12">
                     <h2 class="h2">Payments history</h2>
-                    
+
                     <a href="/billing/history/export" class="link btn row gap-4">
                         <span class="symbol">file_export</span>
                         <span class="text">Export</span>

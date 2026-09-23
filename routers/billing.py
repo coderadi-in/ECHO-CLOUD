@@ -34,13 +34,18 @@ def plans():
 @login_required
 @limiter.limit("5 per minute")
 def create_order():
-    response = initiate_payment_order()
+    # ACCESS REQUEST VALUES
+    request_data = request.get_json()
+    plan_name = request_data.get('planName')
+
+    if (not plan_name):
+        return jsonify({ "success": False, }), 400
+
+    response = initiate_payment_order(plan_name)
 
     # Fetch response status
     if (response["status"] != 200):
-        return jsonify({
-            "success": False
-        }), 500
+        return jsonify({ "success": False, }), 500
 
     order = response["order"]
 
@@ -50,7 +55,7 @@ def create_order():
         "key": os.getenv("RZP_ID_TEST"),
         "order_id": order["id"],
         "amount": order["amount"],
-        "currency": order["currency"]
+        "currency": order["currency"],
     })
     
 # & PAYMENTS ROUTE

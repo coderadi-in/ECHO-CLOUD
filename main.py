@@ -77,11 +77,11 @@ def handle_401(error):
     flash("Login required", "error")
     return redirect('/')
 
-# & BAD REQUEST
-@server.errorhandler(400)
-def handle_400(error = None):
-    flash("Something wen't wrong on our side!", "error")
-    return redirect('/')
+# # & BAD REQUEST
+# @server.errorhandler(400)
+# def handle_400(error = None):
+#     flash("Something went wrong on our side!", "error")
+#     return redirect('/')
 
 # & NOT FOUND
 @server.errorhandler(404)

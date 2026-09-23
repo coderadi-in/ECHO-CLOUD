@@ -33,14 +33,16 @@ class PromoCode(db.Model):
     __tablename__ = "promo_code"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code = db.Column(db.String(20), nullable=False)
-    sponsor = db.Column(db.String, nullable=False)
+    sponsor = db.Column(db.String)
     users = db.Column(db.Integer, default=0)
-    credits = db.Column(db.Integer, nullable=False)
+    credits = db.Column(db.Integer)
+    discount = db.Column(db.Float)
+    available_plans = db.Column(db.JSON, default=['standard', 'pro', 'ultra'])
     limit = db.Column(db.Integer)
     expiry = db.Column(db.Date)
 
     users_list = db.relationship(
         'User',
         secondary=promo_code_users,
-        lazy='selectin'
+        lazy=True
     )
