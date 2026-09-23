@@ -48,7 +48,7 @@ def fetch_orders_by_year():
 
             for order_info in orders_info:
                 product_info = Product.query.get(order_info.product_id)
-                price_list.append(product_info.price * month_qty)
+                price_list.append(product_info.price * order_info.quantity)
 
             orders_qty.append(month_qty)
             order_amounts.append(sum(price_list))

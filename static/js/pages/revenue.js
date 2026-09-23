@@ -274,7 +274,9 @@ function searchProducts(keyword) {
 
     products.forEach(product => {
         const productTitle = product.querySelector('.product-title');
-        if (!productTitle.textContent.includes(keyword)) { product.style.display = 'none'; }
+        const contentLower = productTitle.textContent.toLowerCase();
+        const keywordLower = keyword.toLowerCase();
+        if (!contentLower.includes(keywordLower)) { product.style.display = 'none'; }
     });
 }
 

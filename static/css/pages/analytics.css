@@ -36,6 +36,7 @@ main { height: calc(100dvh - 90px); }
 /* ANALYTICS TABLE */
 /* ================================================== */
 
+.analytics-table .analytics-body { overflow-y: auto; }
 .analytics-table .analytics-row.row-head { border-bottom: 1px solid var(--color-border); }
 
 .analytics-table .analytics-row.row-body:not(:last-child) { border-bottom: 1px solid var(--color-border); }
