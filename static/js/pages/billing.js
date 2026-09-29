@@ -2,8 +2,10 @@
 // ELEMENT REFERENCE
 // ==================================================
 
-const upgradeProBtn = document.getElementById('upgradePro');
-const upgradeUltraBtn = document.getElementById('upgradeUltra');
+const renewBtn = document.querySelector('renew-btn');
+const rechargeBtn = document.getElementById('rechargeBtn');
+const lastVersion = document.getElementById('lastVersion').textContent;
+const currentVersion = document.getElementById('currentVersion').textContent;
 
 const renewalDate = document.getElementById('renewalDate');
 const paymentRows = document.querySelectorAll('.payment-row');
@@ -80,7 +82,7 @@ async function _sendOrderRequest(planName, note) {
         description: note,
         handler: function (response) {
             window.location =
-                `/billing/payments?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}`;
+                `/billing/payments?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}&plan_name=${response.planName}`;
         },
         modal: {
             ondismiss: function () {
@@ -91,6 +93,22 @@ async function _sendOrderRequest(planName, note) {
 
     const razorpay = new Razorpay(options);
     razorpay.open();
+}
+
+// ! TEMPORARY FUNCTION TO UPGRADE ACCOUNT
+async function _sendTemporaryOrderRequest(planName) {
+    const response = await fetch('/billing/create-order-temporary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ planName: planName, }),
+    });
+
+    if (!response.ok) {
+        sendToastNotification("Can't process your order request!", "error", "var(--color-state-red)");
+        return;
+    }
+
+    sendToastNotification("See what happened!", "check", 'var(--color-state-green)');
 }
 
 // ==================================================
@@ -104,14 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // & EVENT LISTENER FOR UPGRADE-BUTTON CLICK
-if (upgradeProBtn) {
-    upgradeProBtn.addEventListener('click', async () => {
-        await _sendOrderRequest('Pro', 'Pro Plan');
+if (renewBtn) {
+    renewBtn.addEventListener('click', async () => {
+        await _sendOrderRequest(lastVersion, `${lastVersion} Plan`);
     });
 }
 
-if (upgradeUltraBtn) {
-    upgradeUltraBtn.addEventListener('click', async () => {
-        await _sendOrderRequest('Ultra', 'Ultra Plan');
+if (rechargeBtn) {
+    rechargeBtn.addEventListener('click', async () => {
+        await _sendOrderRequest('recharge', 'recharge');
     });
 }

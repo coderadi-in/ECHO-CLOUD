@@ -27,7 +27,13 @@ billing = Blueprint('billing', __name__, url_prefix='/billing')
 @login_required
 @limiter.limit("30 per minute")
 def plans():
-    return render_template('pages/billing.html')
+    plan_info = ACCOUNT_PLANS.get(current_user.current_plan.lower())
+    last_plan = ACCOUNT_PLANS.get(current_user.last_plan.lower())
+
+    return render_template('pages/billing.html', data={
+        'plan_info': plan_info,
+        'last_plan': last_plan,
+    })
 
 # & UPGRADE ROUTE
 @billing.route("/create-order", methods=["POST"])
@@ -52,12 +58,13 @@ def create_order():
     # Return order details
     return jsonify({
         "success": True,
-        "key": os.getenv("RZP_ID_TEST"),
+        "key": os.getenv("RZP_ID"),
         "order_id": order["id"],
         "amount": order["amount"],
         "currency": order["currency"],
+        "planName": plan_name,
     })
-    
+
 # & PAYMENTS ROUTE
 @billing.route('/payments')
 @login_required
@@ -67,10 +74,15 @@ def check_payment_status():
     order_id = request.args.get("order_id")
     payment_id = request.args.get("payment_id")
     signature = request.args.get("signature")
+    plan_name = request.args.get("plan_name")
 
     if (Payment.query.filter_by(order_id=order_id).first()):
         flash("The payment was already processed.", "check")
         return redirect(url_for('app.dashboard'))
+
+    if (not ACCOUNT_PLANS.get(plan_name)):
+        flash("Plan verification failed. Contact our support team for any kind of help.", "error")
+        return redirect(url_for("billing.billing"))
     
     # Signature verification
     try:
@@ -81,7 +93,7 @@ def check_payment_status():
         })
 
     except Exception:
-        flash("Payment verification failed.", "error")
+        flash("Payment verification failed. Contact our support team for any kind of help", "error")
         return redirect(url_for("billing.billing"))
     
     # Fetch status
@@ -107,7 +119,7 @@ def check_payment_status():
 
     # Return response
     if (payment_status == "captured"):
-        upgrade_plan()
+        upgrade_plan(plan_name)
 
         return render_template(f"events/paid.html", data={
             "order_id": order_id,
@@ -118,7 +130,7 @@ def check_payment_status():
             "id": payment.id,
             "date": payment.date,
             "method": payment_method,
-            "credits": ACCOUNT_PLANS["pro"],
+            "credits": ACCOUNT_PLANS.get(plan_name),
         })
     
     else:

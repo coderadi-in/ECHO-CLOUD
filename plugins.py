@@ -40,14 +40,39 @@ client = Client(auth=(os.getenv("RZP_ID"), os.getenv("RZP_SECRET")))
 
 # ! PLANS LIST
 ACCOUNT_PLANS = {
+    "free": {
+        'plan_name': 'free',
+        'credits': 50,
+        'locked_features': ['ECHO_REVENUE', 'ECHO_ANALYTICS'],
+        'unlocked_features': ['ECHO_EDITOR', 'ECHO_STICKERS'],
+        'maintenance': 0
+    },
+    "mini": {
+        'plan_name': 'mini',
+        'credits': 300,
+        'locked_features': ['ECHO_REVENUE'],
+        'unlocked_features': ['ECHO_ANALYTICS', 'ECHO_EDITOR', 'ECHO_STICKERS'],
+        'maintenance': 100
+    },
     "pro": {
-        'price': 29900,
-        'credits': 1_500,
+        'plan_name': 'pro',
+        'credits': 1500,
+        'locked_features': [],
+        'unlocked_features': ['ECHO_REVENUE', 'ECHO_ANALYTICS', 'ECHO_EDITOR', 'ECHO_STICKERS'],
+        'maintenance': 100
     },
-    "ultra": {
-        'price': 59900,
-        'credits': 10_000
+    "extended": {
+        'plan_name': 'extended',
+        'credits': 10000,
+        'locked_features': [],
+        'unlocked_features': ['ECHO_REVENUE', 'ECHO_ANALYTICS', 'ECHO_EDITOR', 'ECHO_STICKERS'],
+        'maintenance': 100
     },
+    "recharge": {
+        'plan_name': 'recharge',
+        'credits': 100,
+        'maintenance': 100
+    }
 }
 
 # * FUNCTION TO EXTRACT ORIGIN FROM A URL
@@ -112,14 +137,14 @@ def initiate_payment_order(plan: str):
     """
 
     # FETCH PLAN
-    plan_info = ACCOUNT_PLANS.get(plan.lower());
+    plan_info = ACCOUNT_PLANS.get(plan.lower())
 
     if (not plan_info):
         return { "status": 400, "order": None, }
 
     try:
         order = client.order.create({
-            "amount": plan_info.get('price'),
+            "amount": plan_info.get('maintenance'),
             "currency": "INR",
             "notes": {
                 "user_id": current_user.id,
@@ -268,7 +293,7 @@ def reset_credits():
     """
 
     # CHECK IF USER HAS FREE PLAN AND RENEWAL DATE HAS PASSED
-    if (current_user.plan.lower() == "free") and (date.today() >= current_user.renewal_date + timedelta(days=1)):
+    if (current_user.current_plan.lower() == "free") and (date.today() >= current_user.renewal_date + timedelta(days=1)):
         current_user.total_credits, current_user.left_credits = 50, 50
         current_user.renewal_date = date.today() + timedelta(days=30)
         db.session.commit()
@@ -298,7 +323,8 @@ def upgrade_plan(plan: str = "pro"):
     L2 = T2 - G # L2 = New left credits of user.
 
     # SAVE NEW VALUES IN USER MODEL
-    current_user.plan = plan
+    current_user.current_plan = plan
+    current_user.last_plan = plan
     current_user.total_credits = T2
     current_user.left_credits = L2
     current_user.renewal_date = date.today() + relativedelta(month=1)
@@ -312,11 +338,11 @@ def downgrade_plan():
     """
 
     # CHECK IF USER HAS FREE PLAN OR RENEWAL HAS NOT PASSED
-    if (current_user.plan.lower() == "free") or (date.today() < current_user.renewal_date + timedelta(days=1)):
+    if (current_user.current_plan.lower() == "free") or (date.today() < current_user.renewal_date + timedelta(days=1)):
         return { "status": 400, "message": "User has free plan or renewal date hasn't passed." }
 
     # DOWNGRADE USER'S PLAN
-    current_user.plan = "free"
+    current_user.current_plan = "free"
     current_user.total_credits, current_user.left_credits = 50, 50
     current_user.renewal_date = date.today() + relativedelta(month=1)
     db.session.commit()
