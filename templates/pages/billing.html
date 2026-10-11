@@ -76,12 +76,11 @@
                             <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">{{ data.plan_info.credits }} Credits</span>
                         </div>
 
-                        {% if current_user.current_plan.lower() == "free" %}
-                            <button class="link btn icon-fl rounded-8 pv-12 ph-16 w-fit renew-btn" id="data.plan_info.plan_name">
-                                <span class="text">Upgrade Now</span>
-                                <span class="symbol">arrow_outward</span>
+                        {% if current_user.last_plan.lower() != 'free' and current_user.current_plan.lower() == 'free' %}
+                            <button class="btn fl rounded-8 ph-16 pv-12 w-fit">
+                                <span class="text">Upgrade account</span>
                             </button>
-                            {% endif %}
+                        {% endif %}
 
                         <hr class="divider">
 
@@ -101,7 +100,7 @@
                                 <p class="para mini">You can upgrade or downgrade your current plan according to your business status.</p>
                             </div>
 
-                            <a href="https://wa.me/919044791312?text=Hi, I want to modify my current plan." class="link btn fl rounded-8 pv-12 ph-16 w-fit">
+                            <a href="https://wa.me/919044791312?text=Hi, I want to modify my current echo plan." class="link btn fl rounded-8 pv-12 ph-16 w-fit">
                                 <span class="text">Request for modification</span>
                             </a>
                         </div>

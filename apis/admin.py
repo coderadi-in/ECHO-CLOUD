@@ -181,7 +181,7 @@ def delete_promo():
 def increase_credits():
     # ACCESS JSON DATA AND USER ROW
     data = request.json
-    user = User.query.filter_by(email=data['email']).first()
+    user = User.query.filter_by(email=data.get('email')).first()
 
     # USER VALIDATION
     if (not user):
@@ -205,3 +205,45 @@ def increase_credits():
             "total_credits": user.total_credits
         }
     }), 200
+
+# ==================================================
+# USER API ENDPOINTS
+# ==================================================
+
+# & CHANGE USER PLANS
+@admin.route('/users/change-plan', methods=['POST'])
+@admin_authentication_required
+def change_plan():
+    # ACCESS JSON DATA
+    data = request.json
+    user = User.query.filter_by(email=data.get('email')).first()
+
+    # USER VALIDATION
+    if (not user):
+        return jsonify({
+            "status": 404,
+            "message": "User not found!"
+        }), 404
+
+    # CHANGE PLAN
+    plan = data.get('plan')
+    change_renewal = data.get('change_renewal')
+
+    user.current_plan = plan
+    if (change_renewal):
+        renewal_date = date.today() + relativedelta(month=1)
+        current_user.renewal_date = renewal_date
+
+    db.session.commit()
+
+    # RETURN RESPONSE
+    return jsonify({
+        "status": 200,
+        "message": "Plan changed successfully!",
+        "details": {
+            "user_email": user.email,
+            "renewal_date": user.renewal_date,
+            "current_plan": user.current_plan,
+            "last_plan": user.last_plan
+        }
+    })

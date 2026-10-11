@@ -55,44 +55,48 @@ function startSimpler() {
 
 // * FUNCTION TO SEND AN ORDER REQUEST
 async function _sendOrderRequest(planName, note) {
-    const response = await fetch('/billing/create-order', {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json', },
-        body: JSON.stringify({ planName: planName, }),
-    });
+    try {
+        const response = await fetch('/billing/create-order', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json', },
+            body: JSON.stringify({ planName: planName, }),
+        });
 
-    if (!response.ok) {
-        sendToastNotification("Something went wrong while processing your order!", "error", "var(--color-state-red)");
-        return;
-    }
-
-    const data = await response.json();    
-
-    if (!data.success) {
-        sendToastNotification("Something went wrong while processing your order!", "error", "var(--color-state-red)");
-        return;
-    }
-
-    const options = {
-        key: data.key,
-        order_id: data.order_id,
-        amount: data.amount,
-        currency: data.currency,
-        name: "AUVORA ECHO",
-        description: note,
-        handler: function (response) {
-            window.location =
-                `/billing/payments?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}&plan_name=${response.planName}`;
-        },
-        modal: {
-            ondismiss: function () {
-                sendToastNotification("Payment cancelled by user.", "cancel", "var(--color-state-red)");
-            }
+        if (!response.ok) {
+            sendToastNotification("Something went wrong while processing your order!", "error", "var(--color-state-red)");
+            return;
         }
-    };
 
-    const razorpay = new Razorpay(options);
-    razorpay.open();
+        const data = await response.json();    
+
+        if (!data.success) {
+            sendToastNotification("Something went wrong while processing your order!", "error", "var(--color-state-red)");
+            return;
+        }
+
+        const options = {
+            key: data.key,
+            order_id: data.order_id,
+            amount: data.amount,
+            currency: data.currency,
+            name: "AUVORA ECHO",
+            description: note,
+            handler: function (response) {
+                window.location =
+                    `/billing/payments?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}&plan_name=${response.planName}`;
+            },
+            modal: {
+                ondismiss: function () {
+                    sendToastNotification("Payment cancelled by user.", "cancel", "var(--color-state-red)");
+                }
+            }
+        };
+
+        const razorpay = new Razorpay(options);
+        razorpay.open();
+    } catch (error) {
+        alert("Something went wrong. Contact our support team if the amount was deducted.");
+    }
 }
 
 // ! TEMPORARY FUNCTION TO UPGRADE ACCOUNT
@@ -130,6 +134,6 @@ if (renewBtn) {
 
 if (rechargeBtn) {
     rechargeBtn.addEventListener('click', async () => {
-        await _sendOrderRequest('recharge', 'recharge');
+        await _sendOrderRequest('recharge', '100 credits recharge');
     });
 }
