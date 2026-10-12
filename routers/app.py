@@ -599,6 +599,7 @@ def delete_account():
     # DELETE ACCOUNT
     _delete_from_list(current_user.captions)
     _delete_from_list(current_user.headlines)
+    _delete_from_list(user.barcode_sheets)
     _delete_from_list(current_user.saved)
     _delete_from_list(current_user.payments)
     _delete_from_list(current_user.orders)

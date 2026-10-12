@@ -28,3 +28,4 @@ class Order(db.Model):
     quantity = db.Column(db.Integer, default=1)
     ordered_on = db.Column(db.Date, default=date.today())
     status = db.Column(db.String(20), default='unrecognized') # ['accepted', 'rejected', 'unrecognized']
+    deleted = db.Column(db.Boolean, default=False)

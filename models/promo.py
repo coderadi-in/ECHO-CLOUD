@@ -37,7 +37,7 @@ class PromoCode(db.Model):
     users = db.Column(db.Integer, default=0)
     credits = db.Column(db.Integer)
     discount = db.Column(db.Float)
-    available_plans = db.Column(db.JSON, default=['standard', 'pro', 'ultra'])
+    available_plans = db.Column(db.JSON, default=['mini', 'pro', 'extended'])
     limit = db.Column(db.Integer)
     expiry = db.Column(db.Date)
 
@@ -46,3 +46,16 @@ class PromoCode(db.Model):
         secondary=promo_code_users,
         lazy=True
     )
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'code': self.code,
+            'sponsor': self.sponsor,
+            'users': self.users,
+            'credits': self.credits,
+            'discount': self.discount,
+            'available_plans': self.available_plans,
+            'limit': self.limit,
+            'expiry': self.expiry,
+        }
