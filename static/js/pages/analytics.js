@@ -12,7 +12,7 @@ const sidebar = document.querySelector('.sidebar');
 const toggleSidebarBtns = document.querySelectorAll('.toggle-sidebar');
 
 // ? API REFERENCES
-const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
+const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/?view=by-range`; //`${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
 const QTIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-time`;
 const QSTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-status`;
 const ATIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-time`;
@@ -174,16 +174,8 @@ async function _getOrdersByDateRange(startDate, endDate) {
     const formattedEnd = formatDate(endDate);
 
     // FETCH ORDERS
-    const response = await fetch(ORDER_API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            start: formattedStart,
-            end: formattedEnd
-        }),
-    });
+    const response = await fetch(`${ORDER_API_ENDPOINT}&start=${formattedStart}&end=${formattedEnd}`);
+    console.log(`${ORDER_API_ENDPOINT}&start=${formattedStart}&end=${formattedEnd}`);
 
     // CHECK FOR API RESPONSE
     if (!response.ok) {
@@ -193,7 +185,7 @@ async function _getOrdersByDateRange(startDate, endDate) {
 
     // RETURN OUTPUT
     const output = await response.json();
-    return output.output;
+    return output.output_obj;
 }
 
 // * FUNCTION TO CREATE A NEW ORDER ROW

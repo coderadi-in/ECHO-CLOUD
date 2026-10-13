@@ -15,7 +15,7 @@ from models import *
 from functools import wraps
 
 # | ROUTER INIT
-auth = Blueprint('auth', __name__, url_prefix='/api/auth')
+auth = Blueprint('api-auth', __name__, url_prefix='/api/auth')
 
 # | AUXILIARY REFERENCES
 today = date.today()

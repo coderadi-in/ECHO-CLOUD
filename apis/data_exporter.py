@@ -68,7 +68,7 @@ def export_revenue():
         raw_df['Title'].append(product.title)
         raw_df['Price'].append(product.price)
         raw_df['Ordered Qty'].append(len(orders_count))
-        raw_df['Sales Amt'].append(orders_count * product.price * sales_qty)
+        raw_df['Sales Amt'].append(len(orders_count) * product.price * sales_qty)
 
     # INITIALIZE DATA BYTES TO SEND
     df = pd.DataFrame(raw_df)

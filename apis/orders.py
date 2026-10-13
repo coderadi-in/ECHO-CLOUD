@@ -42,7 +42,6 @@ def user_authentication_required(func: callable):
 
 # & LIST/ADD CURRENT USER'S ORDERS, WITH FILTERS
 @orders.route('/', methods=['GET', 'POST'])
-@user_authentication_required
 @limiter.limit("30 per minute")
 def base():
     if request.method == 'GET':
@@ -220,7 +219,7 @@ def base():
 
         # ACCESS SOURCE DATA
         product_id = request.form.get('product_id')
-        quantity = request.form.get('product_qty', default=1, type=int)
+        quantity = request.form.get('product_qty', 1, type=int)
 
         # SOURCE DATA VALIDATION
         if (not Product.query.get(product_id)):

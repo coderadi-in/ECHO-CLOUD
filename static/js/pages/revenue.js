@@ -18,7 +18,6 @@ const colorShades = [
 ];
 
 // ? API REFERENCES
-const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
 const QTIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-time`;
 const QSTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-status`;
 const ATIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-time`;
@@ -208,7 +207,7 @@ async function renderGrowthChart() {
     const root = document.body;
     const rootStyle = getComputedStyle(root);
     
-    const fetch_req = await fetch(`${hrefOrigin}/api/orders/fetch/qty-value/by-year`);
+    const fetch_req = await fetch(`${hrefOrigin}/api/orders/?view=by-year`);
     const response = await fetch_req.json();
 
     const chart = new Chart(growthChart, {
@@ -218,14 +217,14 @@ async function renderGrowthChart() {
             datasets: [
                 {
                     label: "Orders",
-                    data: response.output.qty,
+                    data: response.details.qty,
                     backgroundColor: rootStyle.getPropertyValue('--color-chart-secondary'),
                     borderRadius: 16,
                     yAxisID: 'y'
                 },
                 {
                     label: "Sales",
-                    data: response.output.amt,
+                    data: response.details.amt,
                     backgroundColor: rootStyle.getPropertyValue('--color-chart-secondary'),
                     borderRadius: 16,
                     yAxisID: 'y1'
@@ -240,16 +239,16 @@ async function renderGrowthChart() {
 
 // * FUNCTION TO RENDER CONTRIBUTION CHART
 async function renderContributionChart() {
-    const fetch_req = await fetch(`${hrefOrigin}/api/orders/fetch/prod-qty/by-month`);
+    const fetch_req = await fetch(`${hrefOrigin}/api/orders/?view=by-product`);
     const response = await fetch_req.json();
 
     const chart = new Chart(contributionChart, {
         type: 'doughnut',
         data: {
-            labels: response.output.products,
+            labels: response.details.products,
             datasets: [{
                 label: "Contribution in Revenue",
-                data: response.output.qty,
+                data: response.details.qty,
                 backgroundColor: Array.from({ length: 4 }, getRandomHexColor),
                 hoverOffset: 4,
                 borderColor: 'transparent',

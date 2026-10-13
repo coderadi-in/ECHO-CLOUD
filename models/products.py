@@ -30,3 +30,6 @@ class Product(db.Model):
     desc = db.Column(db.TEXT, nullable=False)
 
     orders = db.relationship('Order', backref='product', lazy=True)
+
+    def tolist(self):
+        return [self.id, self.title, self.price, self.desc]
