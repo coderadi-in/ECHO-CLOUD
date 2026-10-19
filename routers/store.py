@@ -78,6 +78,7 @@ def sync_store():
         if (not prod_instance):
             new_product = Product(
                 id=int(prod_id),
+                user=current_user.id,
                 title=product[1],
                 price=product[2],
                 desc=product[3]
