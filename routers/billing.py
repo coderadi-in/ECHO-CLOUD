@@ -41,7 +41,7 @@ def plans():
 @limiter.limit("5 per minute")
 def create_order():
     # ACCESS REQUEST VALUES
-    request_data = request.get_json()
+    request_data = request.json
     plan_name = request_data.get('planName')
 
     if (not plan_name):
@@ -82,7 +82,7 @@ def check_payment_status():
 
     if (not ACCOUNT_PLANS.get(plan_name)):
         flash("Plan verification failed. Contact our support team for any kind of help.", "error")
-        return redirect(url_for("billing.billing"))
+        return redirect(url_for("billing.plans"))
     
     # Signature verification
     try:
@@ -94,7 +94,7 @@ def check_payment_status():
 
     except Exception:
         flash("Payment verification failed. Contact our support team for any kind of help", "error")
-        return redirect(url_for("billing.billing"))
+        return redirect(url_for("billing.plans"))
     
     # Fetch status
     response = fetch_payment_status(payment_id)

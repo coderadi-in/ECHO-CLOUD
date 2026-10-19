@@ -83,7 +83,7 @@ async function _sendOrderRequest(planName, note) {
             description: note,
             handler: function (response) {
                 window.location =
-                    `/billing/payments?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}&plan_name=${response.planName}`;
+                    `/billing/payments?order_id=${response.razorpay_order_id}&payment_id=${response.razorpay_payment_id}&signature=${response.razorpay_signature}&plan_name=${planName}`;
             },
             modal: {
                 ondismiss: function () {
