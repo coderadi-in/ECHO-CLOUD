@@ -34,6 +34,7 @@ class User(db.Model, UserMixin):
 
     total_credits = db.Column(db.Integer, default=50)
     left_credits = db.Column(db.Integer, default=50)
+    purchased_credits = db.Column(db.Integer, default=0)
 
     last_plan = db.Column(db.String, default="free")
     current_plan = db.Column(db.String, default="free")

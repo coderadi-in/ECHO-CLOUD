@@ -30,7 +30,7 @@ today = date.today()
 @login_required
 def export_revenue():
     # AUXILIARY DATA VALUES
-    last_month = today.replace(day=1) - relativedelta(month=1)
+    last_month = today.replace(day=1) - relativedelta(months=1)
     next_month = today.replace(day=28) + timedelta(days=4)
     this_month = next_month - timedelta(days=next_month.day)
     start_index, end_index = None, None
@@ -89,7 +89,7 @@ def export_revenue():
 @login_required
 def export_analytics():
     # AUXILIARY DATA VALUES
-    last_month = today.replace(day=1) - relativedelta(month=1)
+    last_month = today.replace(day=1) - relativedelta(months=1)
     next_month = today.replace(day=28) + timedelta(days=4)
     this_month = next_month - timedelta(days=next_month.day)
     start_index, end_index = None, None

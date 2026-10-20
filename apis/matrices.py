@@ -34,7 +34,7 @@ def compare_qty_by_time():
 
     try:
         if (time_period == 'month'):
-            last_month = today - relativedelta(month=1)
+            last_month = today - relativedelta(months=1)
 
             current_orders_count = Order.query.filter(
                 Order.user==current_user.id,
@@ -60,7 +60,7 @@ def compare_qty_by_time():
             }), 200
 
         elif (time_period == 'year'):
-            last_month = today - relativedelta(year=1)
+            last_month = today - relativedelta(years=1)
 
             current_orders_count = Order.query.filter(
                 Order.user==current_user.id,
@@ -113,7 +113,7 @@ def compare_qty_by_status():
                 'output': 0
             }), 400
 
-        last_month = today - relativedelta(month=1)
+        last_month = today - relativedelta(months=1)
         
         current_orders_count = Order.query.filter(
             Order.user==current_user.id,
@@ -155,7 +155,7 @@ def compare_amt_by_time():
 
     try:
         if (time_period == 'month'):
-            last_month = today - relativedelta(month=1)
+            last_month = today - relativedelta(months=1)
 
             current_orders_count = Order.query.filter(
                 Order.user==current_user.id,
@@ -181,7 +181,7 @@ def compare_amt_by_time():
             }), 200
 
         elif (time_period == 'year'):
-            last_year = today - relativedelta(year=1)
+            last_year = today - relativedelta(years=1)
             
             current_orders_count = Order.query.filter(
                 Order.user==current_user.id,
@@ -234,7 +234,7 @@ def compare_amt_by_status():
                 'output': 0
             }), 400
 
-        last_month = today - relativedelta(month=1)
+        last_month = today - relativedelta(months=1)
 
         current_orders_count = Order.query.filter(
             Order.user==current_user.id,
@@ -271,7 +271,7 @@ def compare_amt_by_status():
 @login_required
 def compare_product_qty():
     # AUXILIARY VALUES
-    last_month = today - relativedelta(month=1)
+    last_month = today - relativedelta(months=1)
     data = request.get_json()
     product_id = data.get('productId')
 
