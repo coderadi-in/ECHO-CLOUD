@@ -52,6 +52,9 @@
 /* OUTPUT FRAME */
 /* ================================================== */
 
+.output-frame #closeFrame,
+.output-frame #copyBtn { display: none; }
+
 .output-frame .line {
     width: 0;
     height: 4px;

@@ -108,6 +108,12 @@ function sendGenParam() {
 // * FUNCTION TO DISPLAY GENERATION SKELETON
 function showGenSkeleton() {
     outputFrame.style.display = 'flex';
+    outputResponse.style.display = "none";
+    lines.forEach(line => { line.style.display = 'inline-block'; });
+    copyBtn.textContent = "content_copy";
+    copyBtn.style.display = "none";
+    closeFrameBtn.style.display = "none";
+
     setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
 }
 
@@ -121,11 +127,15 @@ function animateGenSkeleton() {
     }, 600);
 
     return () => {
+        copyBtn.style.display = "inline";
+        closeFrameBtn.style.display = "inline";
+        outputResponse.style.display = "inline-block";
+
         lines.forEach(line => {
             document.querySelector('.output-frame .head .fs-24').style.display = 'none';
             line.style.display = 'none';
             clearInterval(intervalId);
-        })
+        });
     }
 }
 

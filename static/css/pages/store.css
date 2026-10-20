@@ -56,7 +56,7 @@
 /* ================================================== */
 
 .main .body .products-grid .product {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 2;
     transition: transform 0.3s;
 }
 

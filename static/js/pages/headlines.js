@@ -110,6 +110,13 @@ function sendGenParam() {
 // * FUNCTION TO DISPLAY GENERATION SKELETON
 function showGenSkeleton() {
     outputFrame.style.display = 'flex';
+    lines.forEach(line => { line.style.display = 'inline-block'; });
+    outputHeadline.style.display = 'none';
+    outputDesc.style.display = 'none';
+    copyBtn.textContent = "content_copy";
+    copyBtn.style.display = "none";
+    closeFrameBtn.style.display = "none";
+
     setTimeout(() => { outputFrame.style.opacity = '1'; }, 100);
 }
 
@@ -123,6 +130,11 @@ function animateGenSkeleton() {
     }, 600);
 
     return () => {
+        copyBtn.style.display = "inline";
+        closeFrameBtn.style.display = "inline";
+        outputHeadline.style.display = 'inline-block';
+        outputDesc.style.display = 'inline-block';
+
         lines.forEach(line => {
             document.querySelector('.output-frame .head .fs-24').style.display = 'none';
             line.style.display = 'none';

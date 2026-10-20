@@ -323,8 +323,10 @@ def upgrade_plan(plan: str = "pro"):
     L2 = T2 - G # L2 = New left credits of user.
 
     # SAVE NEW VALUES IN USER MODEL
-    current_user.current_plan = plan
-    current_user.last_plan = plan
+    if (plan != "recharge"):
+        current_user.current_plan = plan
+        current_user.last_plan = plan
+
     current_user.total_credits = T2
     current_user.left_credits = L2
     current_user.renewal_date = date.today() + relativedelta(month=1)

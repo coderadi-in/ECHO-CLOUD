@@ -73,7 +73,7 @@ function switchTab(e) {
 
 // * FUNCTION TO FETCH CURRENT USER'S MONTHLY CREDITS USAGE
 async function fetchMonthlyUsage() {
-    const response = await fetch('/api/user/credits/monthly-usage');
+    const response = await fetch('/api/user/credits/usage');
     return response.json();
 }
 
