@@ -296,6 +296,7 @@ def reset_credits():
     if (current_user.current_plan.lower() == "free") and (date.today() >= current_user.renewal_date + timedelta(days=1)):
         current_user.total_credits, current_user.left_credits = 50, 50
         current_user.renewal_date = date.today() + timedelta(days=30)
+        print("Credits reset by reset system.", flush=True)
         db.session.commit()
         return { "status": 200, "message": "User's credits has been reset." }
     
@@ -347,6 +348,7 @@ def downgrade_plan():
     current_user.current_plan = "free"
     current_user.total_credits, current_user.left_credits = 50, 50
     current_user.renewal_date = date.today() + relativedelta(month=1)
+    print("Credits reset by downgrade system", flush=True)
     db.session.commit()
     return { "status": 200, "message": "User's plan has been downgraded." }
 
