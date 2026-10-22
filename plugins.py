@@ -412,9 +412,13 @@ def upgrade_plan(plan: str = "pro"):
     if (plan != "recharge"):
         current_user.current_plan = plan
         current_user.last_plan = plan
+        current_user.total_credits = T2
+        current_user.left_credits = L2
 
-    current_user.total_credits = T2
-    current_user.left_credits = L2
+    else:
+        current_user.total_credits += T2
+        current_user.left_credits += L2
+
     current_user.renewal_date = date.today() + timedelta(days=30)
     db.session.commit()
     return { "status": 200, "message": "User's plan type upgraded." }
