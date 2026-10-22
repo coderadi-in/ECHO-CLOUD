@@ -45,24 +45,24 @@ ACCOUNT_PLANS = {
         'credits': 50,
         'locked_features': [
             {
-                'url': 'app.revenue',
+                'url': '/app/revenue',
                 'text': 'Revenue',
                 'symbol': 'trending_up',
             },
             {
-                'url': 'app.analytics',
+                'url': 'app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
         ],
         'unlocked_features': [
             {
-                'url': 'app.editor',
+                'url': 'app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app.sticker',
+                'url': 'app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
@@ -74,24 +74,24 @@ ACCOUNT_PLANS = {
         'credits': 300,
         'locked_features': [
             {
-                'url': 'app.revenue',
+                'url': 'app/revenue',
                 'text': 'Revenue',
                 'symbol': 'trending_up',
             },
         ],
         'unlocked_features': [
             {
-                'url': 'app.editor',
+                'url': 'app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app.sticker',
+                'url': 'app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
             {
-                'url': 'app.analytics',
+                'url': 'app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
@@ -104,22 +104,22 @@ ACCOUNT_PLANS = {
         'locked_features': [],
         'unlocked_features': [
             {
-                'url': 'app.revenue',
+                'url': 'app/revenue',
                 'text': 'Revenue',
                 'symbol': 'trending_up',
             },
             {
-                'url': 'app.analytics',
+                'url': 'app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
             {
-                'url': 'app.editor',
+                'url': 'app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app.sticker',
+                'url': 'app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
@@ -132,22 +132,22 @@ ACCOUNT_PLANS = {
         'locked_features': [],
         'unlocked_features': [
             {
-                'url': 'app.revenue',
+                'url': 'app/revenue',
                 'text': 'Revenue',
                 'symbol': 'trending_up',
             },
             {
-                'url': 'app.analytics',
+                'url': 'app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
             {
-                'url': 'app.editor',
+                'url': 'app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app.sticker',
+                'url': 'app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
