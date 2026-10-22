@@ -43,29 +43,115 @@ ACCOUNT_PLANS = {
     "free": {
         'plan_name': 'free',
         'credits': 50,
-        'locked_features': ['ECHO_REVENUE', 'ECHO_ANALYTICS'],
-        'unlocked_features': ['ECHO_EDITOR', 'ECHO_STICKERS'],
+        'locked_features': [
+            {
+                'url': 'app.revenue',
+                'text': 'Revenue',
+                'symbol': 'trending_up',
+            },
+            {
+                'url': 'app.analytics',
+                'text': 'Analytics',
+                'symbol': 'analytics',
+            },
+        ],
+        'unlocked_features': [
+            {
+                'url': 'app.editor',
+                'text': 'Editor',
+                'symbol': 'format_image_right',
+            },
+            {
+                'url': 'app.sticker',
+                'text': 'Sticker',
+                'symbol': 'label',
+            },
+        ],
         'maintenance': 0
     },
     "mini": {
         'plan_name': 'mini',
         'credits': 300,
-        'locked_features': ['ECHO_REVENUE'],
-        'unlocked_features': ['ECHO_ANALYTICS', 'ECHO_EDITOR', 'ECHO_STICKERS'],
+        'locked_features': [
+            {
+                'url': 'app.revenue',
+                'text': 'Revenue',
+                'symbol': 'trending_up',
+            },
+        ],
+        'unlocked_features': [
+            {
+                'url': 'app.editor',
+                'text': 'Editor',
+                'symbol': 'format_image_right',
+            },
+            {
+                'url': 'app.sticker',
+                'text': 'Sticker',
+                'symbol': 'label',
+            },
+            {
+                'url': 'app.analytics',
+                'text': 'Analytics',
+                'symbol': 'analytics',
+            },
+        ],
         'maintenance': 100
     },
     "pro": {
         'plan_name': 'pro',
         'credits': 1500,
         'locked_features': [],
-        'unlocked_features': ['ECHO_REVENUE', 'ECHO_ANALYTICS', 'ECHO_EDITOR', 'ECHO_STICKERS'],
+        'unlocked_features': [
+            {
+                'url': 'app.revenue',
+                'text': 'Revenue',
+                'symbol': 'trending_up',
+            },
+            {
+                'url': 'app.analytics',
+                'text': 'Analytics',
+                'symbol': 'analytics',
+            },
+            {
+                'url': 'app.editor',
+                'text': 'Editor',
+                'symbol': 'format_image_right',
+            },
+            {
+                'url': 'app.sticker',
+                'text': 'Sticker',
+                'symbol': 'label',
+            },
+        ],
         'maintenance': 100
     },
     "extended": {
         'plan_name': 'extended',
         'credits': 10000,
         'locked_features': [],
-        'unlocked_features': ['ECHO_REVENUE', 'ECHO_ANALYTICS', 'ECHO_EDITOR', 'ECHO_STICKERS'],
+        'unlocked_features': [
+            {
+                'url': 'app.revenue',
+                'text': 'Revenue',
+                'symbol': 'trending_up',
+            },
+            {
+                'url': 'app.analytics',
+                'text': 'Analytics',
+                'symbol': 'analytics',
+            },
+            {
+                'url': 'app.editor',
+                'text': 'Editor',
+                'symbol': 'format_image_right',
+            },
+            {
+                'url': 'app.sticker',
+                'text': 'Sticker',
+                'symbol': 'label',
+            },
+        ],
         'maintenance': 100
     },
     "recharge": {

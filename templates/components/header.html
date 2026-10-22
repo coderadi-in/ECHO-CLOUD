@@ -120,24 +120,9 @@
             <div class="column gap-12 rounded-16 p-16">
                 <span class="mini link">All controls</span>
                 <div class="content grid cols-3">
-                    <a href="{{ url_for('app.sticker') }}" class="link column gap-4 text-center">
-                        <span class="symbol">label</span>
-                        <span class="text">Sticker</span>
-                    </a>
-
-                    <a href="{{ url_for('app.editor') }}" class="link column gap-4 text-center">
-                        <span class="symbol">format_image_right</span>
-                        <span class="text">Editor</span>
-                    </a>
-
-                    <a href="{{ url_for('app.revenue') }}" class="link column gap-4 text-center beta-element">
-                        <span class="symbol">trending_up</span>
-                        <span class="text">Revenue</span>
-                    </a>
-                    
-                    <a href="{{ url_for('app.analytics') }}" class="link column gap-4 text-center beta-element">
-                        <span class="symbol">analytics</span>
-                        <span class="text">Analytics</span>
+                    <a href="{{ url_for('app.settings') }}" class="link column gap-4 text-center">
+                        <span class="symbol">settings</span>
+                        <span class="text">Settings</span>
                     </a>
 
                     <a href="{{ url_for('app.headlines') }}" class="link column gap-4 text-center">
@@ -155,10 +140,25 @@
                         <span class="text">Store</span>
                     </a>
 
-                    <a href="{{ url_for('app.settings') }}" class="link column gap-4 text-center">
-                        <span class="symbol">settings</span>
-                        <span class="text">Settings</span>
+                    <!-- <a href="{{ url_for('app.sticker') }}" class="link column gap-4 text-center">
+                        <span class="symbol">label</span>
+                        <span class="text">Sticker</span>
                     </a>
+
+                    <a href="{{ url_for('app.editor') }}" class="link column gap-4 text-center">
+                        <span class="symbol">format_image_right</span>
+                        <span class="text">Editor</span>
+                    </a>
+
+                    <a href="{{ url_for('app.revenue') }}" class="link column gap-4 text-center">
+                        <span class="symbol">trending_up</span>
+                        <span class="text">Revenue</span>
+                    </a>
+                    
+                    <a href="{{ url_for('app.analytics') }}" class="link column gap-4 text-center">
+                        <span class="symbol">analytics</span>
+                        <span class="text">Analytics</span>
+                    </a> -->
                 </div>
                 <hr class="divider">
                 <a href="{{ url_for('docs.docs_home') }}" class="external_btn link btn row gap-12 rounded-8 p-12 w-full">
@@ -178,6 +178,7 @@
     const controlOptions = document.getElementById('controlOptions');
     const betaModeEnabled = localStorage.getItem('betaMode') === 'enabled';
     import { sendToastNotification } from '../static/js/components/toast.js';
+    const API_REFERENCE = `/api/user/features`;
 
     function toggleTheme() {
         document.body.classList.toggle('dark-theme');
@@ -219,6 +220,31 @@
         };
     }
 
+    async function _fetchUserFeatures() {
+        const response = await fetch(API_REFERENCE);
+        const object = await response.json();
+        const data = object.output_obj;
+        const linkList = document.querySelector('#controlOptions .content');
+
+        data.forEach(elem => {
+            const linkElem = document.createElement('a');
+            linkElem.classList.add('link', 'column', 'gap-4', 'text-center');
+            linkElem.href = elem.url;
+
+            const linkText = document.createElement('span');
+            linkText.classList.add('text');
+            linkText.textContent = elem.text;
+
+            const linkIcon = document.createElement('span');
+            linkIcon.classList.add('symbol');
+            linkIcon.textContent = elem.symbol;
+
+            linkElem.appendChild(linkIcon);
+            linkElem.appendChild(linkText);
+            linkList.appendChild(linkElem);
+        });
+    }
+    
     settingsOptions.addEventListener('beforetoggle', () => {
         setTimeout(() => { settingsOptions.classList.toggle('open'); }, 100);
     });
@@ -232,7 +258,8 @@
     });
 
     themeControl.addEventListener('click', toggleTheme);
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+        await _fetchUserFeatures();
         setTheme();
         setAccent();
         setShadow();

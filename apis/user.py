@@ -200,3 +200,21 @@ def saved():
         "message": None,
         "details": { "saved": current_user.saved, },
     }), 200
+
+
+# & GET CURRENT USER'S UNLOCKED FEATURES
+@user.route('/features')
+@user_authentication_required
+@limiter.limit("30 per minute")
+def unlocked_features():
+    # FETCH INFORMATION
+    plan_info = ACCOUNT_PLANS.get(current_user.current_plan)
+    features = plan_info['unlocked_features']
+
+    # RETURN RESPONSE
+    return jsonify({
+        'status': 200,
+        'error': None,
+        'message': None,
+        'output_obj': features,
+    })

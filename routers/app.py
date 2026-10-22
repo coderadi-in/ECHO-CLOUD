@@ -95,6 +95,7 @@ def dashboard():
 def captions():
     return render_template('pages/captions.html')
 
+
 # & HEADLINES ROUTE
 @app.route('/headlines')
 @login_required
@@ -102,12 +103,14 @@ def captions():
 def headlines():
     return render_template('pages/headlines.html')
 
+
 # & EDITOR ROUTE
 @app.route('/editor')
 @login_required
 @limiter.limit("30 per minute")
 def editor():
     return render_template('pages/editor.html')
+
 
 # & ANALYTICS ROUTE
 @app.route('/analytics')
@@ -174,6 +177,7 @@ def analytics():
             'failed': failed_count
         }
     })
+
 
 # & REVENUE ROUTE
 @app.route('/revenue')
@@ -262,6 +266,7 @@ def revenue():
             },
         },
     })
+
 
 # & CROPPER ROUTE
 @app.route('/cropper')
@@ -610,6 +615,7 @@ def delete_account():
 
     flash("Your account has been deleted completely from ECHO.", "delete_forever")
     return redirect('/')
+
 
 # ! ERR PREVIEW
 @app.route('/preview-err/<code>')
