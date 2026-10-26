@@ -2,10 +2,10 @@
 // ELEMENT REFERENCE
 // ==================================================
 
-const renewBtn = document.querySelector('renew-btn');
 const rechargeBtn = document.getElementById('rechargeBtn');
 const lastVersion = document.getElementById('lastVersion').textContent;
 const currentVersion = document.getElementById('currentVersion').textContent;
+const renewAccountBtn = document.getElementById('renewAccountBtn');
 
 const renewalDate = document.getElementById('renewalDate');
 const paymentRows = document.querySelectorAll('.payment-row');
@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // & EVENT LISTENER FOR UPGRADE-BUTTON CLICK
-if (renewBtn) {
-    renewBtn.addEventListener('click', async () => {
+if (renewAccountBtn) {
+    renewAccountBtn.addEventListener('click', async () => {
         await _sendOrderRequest(lastVersion, `${lastVersion} Plan`);
     });
 }

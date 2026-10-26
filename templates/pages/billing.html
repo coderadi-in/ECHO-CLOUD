@@ -61,34 +61,41 @@
                 <div class="pricing flex gap-20">
                     <div class="card column gap-12 rounded-16 p-16 bg-card w-full">
                         <div class="res-row gap-12">
-                            <p class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">Last version: <span class="mini" id="lastVersion">{{ data.last_plan.plan_name }}</span></p>
-                            <p class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">Current version: <span class="mini" id="currentVersion">{{ data.plan_info.plan_name }}</span></p>
+                            <p class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">Last version: <span
+                                    class="mini" id="lastVersion">{{ data.last_plan.plan_name }}</span></p>
+                            <p class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">Current version: <span
+                                    class="mini" id="currentVersion">{{ data.plan_info.plan_name }}</span></p>
                         </div>
 
                         <div class="pricing-title row v-en">
-                            <h1 class="h1 capitalize">₹ {{ data.last_plan.maintenance }}</h1>
+                            <h1 class="h1 capitalize">₹ {{ data.plan_info.maintenance }}</h1>
                             <span class="mini">/month</span>
                         </div>
 
                         <div class="info-row res-row gap-12">
-                            <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">{{ data.plan_info.unlocked_features | length }} Unlocked features</span>
-                            <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">{{ data.plan_info.locked_features | length }} Locked features</span>
-                            <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">{{ data.plan_info.credits }} Credits</span>
+                            <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">{{
+                                data.plan_info.unlocked_features | length }} Unlocked features</span>
+                            <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">{{
+                                data.plan_info.locked_features | length }} Locked features</span>
+                            <span class="mini ph-12 pv-8 bg-tertiary border w-fit rounded-full">{{
+                                data.plan_info.credits }} Credits</span>
                         </div>
 
-                        {% if current_user.last_plan.lower() != 'free' and current_user.current_plan.lower() == 'free' %}
-                            <button class="btn fl rounded-8 ph-16 pv-12 w-fit">
-                                <span class="text">Upgrade account</span>
-                            </button>
+                        {% if current_user.last_plan != 'free' and current_user.current_plan == 'free' %}
+                        <button class="btn fl rounded-8 ph-16 pv-12 w-fit" id="renewAccountBtn">
+                            <span class="text">Renew account</span>
+                        </button>
                         {% endif %}
 
                         <hr class="divider">
-
                         <span class="text fs-20">Unlocked features:</span>
 
-                        {% for tool in data.plan_info.unlocked_features %}
-                            <span class="text">&bull; {{ tool }}</span>
-                        {% endfor %}
+                        <div class="plans-grid grid cols-auto-320 gap-16">
+                            {% for tool in data.plan_info.unlocked_features %}
+                            <p class="para uppercase row gap-12"><span class="symbol">{{ tool.symbol }}</span><span
+                                    class="text">{{ tool.text }}</span></p>
+                            {% endfor %}
+                        </div>
                     </div>
 
                     <div class="column w-full gap-20">
@@ -97,10 +104,12 @@
 
                             <div class="pricing-title column gap-4">
                                 <h3 class="h3 uppercase">Upgrade/Downgrade your plan</h3>
-                                <p class="para mini">You can upgrade or downgrade your current plan according to your business status.</p>
+                                <p class="para mini">You can upgrade or downgrade your current plan according to your
+                                    business status.</p>
                             </div>
 
-                            <a href="https://wa.me/919044791312?text=Hi, I want to modify my current echo plan." class="link btn fl rounded-8 pv-12 ph-16 w-fit">
+                            <a href="https://wa.me/919044791312?text=Hi, I want to modify my current echo plan."
+                                class="link btn fl rounded-8 pv-12 ph-16 w-fit">
                                 <span class="text">Request for modification</span>
                             </a>
                         </div>

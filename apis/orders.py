@@ -44,7 +44,7 @@ def user_authentication_required(func: callable):
 @orders.route('/', methods=['GET', 'POST'])
 @limiter.limit("30 per minute")
 def base():
-    if request.method == 'GET':
+    if (request.method == 'GET'):
         # ACCESS URL DATA (FILTERS)
         order_status = request.args.get('order_status')
         product_id = request.args.get('product_id')

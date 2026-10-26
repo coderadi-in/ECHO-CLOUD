@@ -50,19 +50,19 @@ ACCOUNT_PLANS = {
                 'symbol': 'trending_up',
             },
             {
-                'url': 'app/analytics',
+                'url': '/app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
         ],
         'unlocked_features': [
             {
-                'url': 'app/editor',
+                'url': '/app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app/sticker',
+                'url': '/app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
@@ -74,29 +74,29 @@ ACCOUNT_PLANS = {
         'credits': 300,
         'locked_features': [
             {
-                'url': 'app/revenue',
+                'url': '/app/revenue',
                 'text': 'Revenue',
                 'symbol': 'trending_up',
             },
         ],
         'unlocked_features': [
             {
-                'url': 'app/editor',
+                'url': '/app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app/sticker',
+                'url': '/app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
             {
-                'url': 'app/analytics',
+                'url': '/app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
         ],
-        'maintenance': 100
+        'maintenance': 49900
     },
     "pro": {
         'plan_name': 'pro',
@@ -104,27 +104,27 @@ ACCOUNT_PLANS = {
         'locked_features': [],
         'unlocked_features': [
             {
-                'url': 'app/revenue',
+                'url': '/app/revenue',
                 'text': 'Revenue',
                 'symbol': 'trending_up',
             },
             {
-                'url': 'app/analytics',
+                'url': '/app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
             {
-                'url': 'app/editor',
+                'url': '/app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app/sticker',
+                'url': '/app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
         ],
-        'maintenance': 100
+        'maintenance': 49900
     },
     "extended": {
         'plan_name': 'extended',
@@ -132,27 +132,27 @@ ACCOUNT_PLANS = {
         'locked_features': [],
         'unlocked_features': [
             {
-                'url': 'app/revenue',
+                'url': '/app/revenue',
                 'text': 'Revenue',
                 'symbol': 'trending_up',
             },
             {
-                'url': 'app/analytics',
+                'url': '/app/analytics',
                 'text': 'Analytics',
                 'symbol': 'analytics',
             },
             {
-                'url': 'app/editor',
+                'url': '/app/editor',
                 'text': 'Editor',
                 'symbol': 'format_image_right',
             },
             {
-                'url': 'app/sticker',
+                'url': '/app/sticker',
                 'text': 'Sticker',
                 'symbol': 'label',
             },
         ],
-        'maintenance': 100
+        'maintenance': 249900
     },
     "recharge": {
         'plan_name': 'recharge',
@@ -434,9 +434,11 @@ def downgrade_plan():
         return { "status": 400, "message": "User has free plan or renewal date hasn't passed." }
 
     # DOWNGRADE USER'S PLAN
+    current_user.last_plan = current_user.current_plan
     current_user.current_plan = "free"
     current_user.total_credits, current_user.left_credits = 50, 50
     current_user.renewal_date = date.today() + timedelta(days=30)
+    db.session.commit()
     return { "status": 200, "message": "User's plan has been downgraded." }
 
 # * FUNCTION TO SCRAPE USER'S STORE

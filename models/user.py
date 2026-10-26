@@ -37,7 +37,7 @@ class User(db.Model, UserMixin):
 
     last_plan = db.Column(db.String, default="free")
     current_plan = db.Column(db.String, default="free")
-    renewal_date = db.Column(db.Date, default=date.today() + relativedelta(month=1))
+    renewal_date = db.Column(db.Date, default=date.today() + relativedelta(months=1))
 
     captions = db.relationship('Caption', backref='author', lazy=True)
     headlines = db.relationship('Headline', backref='author', lazy=True)
