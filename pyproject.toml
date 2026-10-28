@@ -31,4 +31,5 @@ dependencies = [
     "setuptools<82.0.0",
     "flask-cors>=6.0.5",
     "ngrok>=1.7.0",
+    "psycopg2>=2.9.13",
 ]
