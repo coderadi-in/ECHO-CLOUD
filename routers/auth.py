@@ -35,7 +35,7 @@ def signup():
     new_user = User(
         name=name,
         email=email,
-        password=encoder.generate_password_hash(password)
+        password=encoder.generate_password_hash(password).decode('utf-8')
     )
 
     db.session.add(new_user)
