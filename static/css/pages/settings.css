@@ -15,7 +15,7 @@
     aspect-ratio: 1;
     border-radius: 50%;
     background-color: var(--color-accent-main);
-    transition: transform 0.3s;
+    transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%);
 }
 
 /* ================================================== */
@@ -50,7 +50,7 @@
     border: none;
     background-color: var(--color-surface-alt);
     backdrop-filter: blur(4px);
-    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%);
     transform-origin: top left;
     transform: scale(0);
 }
@@ -80,7 +80,7 @@
     color: var(--color-text-main);
     background-color: var(--color-surface-alt);
     backdrop-filter: blur(4px);
-    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%);
     transform-origin: top left;
     transform: scale(0);
 }
@@ -107,7 +107,7 @@
     backdrop-filter: blur(4px);
     width: min(500px, 100%);
     margin: auto;
-    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%);
     transform-origin: center;
     transform: scale(0);
 }
@@ -126,7 +126,7 @@
     backdrop-filter: blur(4px);
     width: min(500px, 100%);
     margin: auto;
-    transition: transform 0.3s cubic-bezier(0.911, 0.161, 0.181, 0.797);
+    transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%);
     transform-origin: center;
     transform: scale(0);
 }

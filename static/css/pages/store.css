@@ -57,9 +57,9 @@
 
 .main .body .products-grid .product {
     aspect-ratio: 3 / 2;
-    transition: transform 0.3s;
+    transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%);
     color: #F8F7FF;
 }
 
-.main .body .products-grid .product:hover { transform: translateY(-8px); }
+.main .body .products-grid .product:hover { transform: scale(0.95); }
 .main .products-grid .product .tag { background-color: var(--color-surface-main); }

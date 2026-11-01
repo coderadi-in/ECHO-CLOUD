@@ -75,7 +75,7 @@ main { height: calc(100dvh - 90px); }
 }
 
 .tools-window .unit .head > * { pointer-events: none; }
-.tools-window .unit .head .symbol { transition: transform 0.3s; }
+.tools-window .unit .head .symbol { transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%); }
 
 .tools-window .unit.active { gap: 12px; }
 .tools-window .unit.active .head .symbol { transform: rotate(90deg); }
@@ -125,7 +125,7 @@ main { height: calc(100dvh - 90px); }
         width: 100%;
         height: calc(100vh - 90px);
         background-color: var(--color-tertiary);
-        transition: transform 0.7s cubic-bezier(0.7,0.1,0.5,0.9);
+        transition: transform 1s linear(0, 0.0146 1%, 0.1153 3%, 0.7419 10%, 0.9589 13%, 1.0956 16%, 1.1235 17%, 1.156 19%, 1.1626 21%, 1.1505 23%, 1.0128 33%, 0.9878 36%, 0.9757 39%, 0.9746 43%, 0.9986 54%, 1.0041 60%, 1 100%);
         transform: translateX(100%);
     }
 
