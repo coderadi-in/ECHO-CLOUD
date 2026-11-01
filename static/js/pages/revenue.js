@@ -133,65 +133,65 @@ async function _fetchStatusComparativeValue(status, mode) {
 
 // * FUNCTION TO ADD COMPARATIVE VALUES IN PAGE
 async function addComparativeValues() {
-    const monthlyDeltaElem = document.getElementById('deltaYearly');
-    const yearlyDeltaElem = document.getElementById('deltaMonthly');
+    const monthlyDeltaElem = document.getElementById('deltaMonthly');
+    const yearlyDeltaElem = document.getElementById('deltaYearly');
     const failedDeltaElem = document.getElementById('deltaFailed');
     const totalDeltaElem = document.getElementById('deltaTotal');
     const bestsellerDeltaElem = document.getElementById('deltaBestseller');
     const topRevDeltaElem = document.getElementById('deltaRevenueCont');
 
-    const deltaMonthly = await _fetchTimeComparativeValue('month', 'qty');
-    const deltaYearly = await _fetchTimeComparativeValue('year', 'qty');
+    const deltaMonthly = await _fetchTimeComparativeValue('month', 'amt');
+    const deltaYearly = await _fetchTimeComparativeValue('year', 'amt');
     const deltaFailed = await _fetchStatusComparativeValue('rejected', 'qty');
     const deltaTotal = await _fetchTimeComparativeValue('month', 'qty');
     const deltaBestseller = await _fetchProductComparativeValue(bestsellerDeltaElem.dataset.productId);
     const deltaTopRev = await _fetchProductComparativeValue(topRevDeltaElem.dataset.productId);
 
     if (deltaMonthly >= 0) {
-        monthlyDeltaElem.textContent = `+ ${Math.abs(deltaMonthly)}%`;
+        monthlyDeltaElem.textContent = `+${Math.abs(deltaMonthly)}%`;
         monthlyDeltaElem.classList.add('status-green');
     } else {
-        monthlyDeltaElem.textContent = `- ${Math.abs(deltaMonthly)}%`;
+        monthlyDeltaElem.textContent = `-${Math.abs(deltaMonthly)}%`;
         monthlyDeltaElem.classList.add('status-red');
     }
     
     if (deltaYearly >= 0) {
-        yearlyDeltaElem.textContent = `+ ${Math.abs(deltaYearly)}%`;
+        yearlyDeltaElem.textContent = `+${Math.abs(deltaYearly)}%`;
         yearlyDeltaElem.classList.add('status-green');
     } else {
-        yearlyDeltaElem.textContent = `- ${Math.abs(deltaYearly)}%`;
+        yearlyDeltaElem.textContent = `-${Math.abs(deltaYearly)}%`;
         yearlyDeltaElem.classList.add('status-red');
     }
 
     if (deltaFailed <= 0) {
-        failedDeltaElem.textContent = `- ${Math.abs(deltaFailed)}%`;
+        failedDeltaElem.textContent = `-${Math.abs(deltaFailed)}%`;
         failedDeltaElem.classList.add('status-green');
     } else {
-        failedDeltaElem.textContent = `+ ${Math.abs(deltaFailed)}%`;
+        failedDeltaElem.textContent = `+${Math.abs(deltaFailed)}%`;
         failedDeltaElem.classList.add('status-red');
     }
 
     if (deltaTotal >= 0) {
-        totalDeltaElem.textContent = `+ ${deltaTotal}%`;
+        totalDeltaElem.textContent = `+${Math.abs(deltaTotal)}%`;
         totalDeltaElem.classList.add('status-green');
     } else {
-        totalDeltaElem.textContent = `- ${deltaTotal}%`;
+        totalDeltaElem.textContent = `-${Math.abs(deltaTotal)}%`;
         totalDeltaElem.classList.add('status-red');
     }
 
     if (deltaBestseller >= 0) {
-        bestsellerDeltaElem.textContent = `+ ${deltaBestseller}%`;
+        bestsellerDeltaElem.textContent = `+${Math.abs(deltaBestseller)}%`;
         bestsellerDeltaElem.classList.add('status-green');
     } else {
-        bestsellerDeltaElem.textContent = `- ${deltaBestseller}%`;
+        bestsellerDeltaElem.textContent = `-${Math.abs(deltaBestseller)}%`;
         bestsellerDeltaElem.classList.add('status-red');
     }
 
     if (deltaTopRev >= 0) {
-        topRevDeltaElem.textContent = `+ ${deltaTopRev}%`;
+        topRevDeltaElem.textContent = `+${Math.abs(deltaTopRev)}%`;
         topRevDeltaElem.classList.add('status-green');
     } else {
-        topRevDeltaElem.textContent = `- ${deltaTopRev}%`;
+        topRevDeltaElem.textContent = `-${Math.abs(deltaTopRev)}%`;
         topRevDeltaElem.classList.add('status-red');
     }
 }

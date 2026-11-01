@@ -3,7 +3,7 @@
 // ==================================================
 
 const products = document.querySelectorAll('.product');
-const colors = [ '#F6DECBA0', '#FCC5D2A0', '#DFDDE3A0', '#CCF5F5A0', '#C2EDFFA0' ];
+const colors = [ '#FE938C', '#6CD4FF', '#5D576B', '#D496A7', '#A49694' ];
 
 const capGenBtns = document.querySelectorAll('.cap-gen-btn');
 const HeadGenBtns = document.querySelectorAll('.hed-gen-btn');

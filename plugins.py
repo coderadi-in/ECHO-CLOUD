@@ -442,7 +442,7 @@ def downgrade_plan():
     return { "status": 200, "message": "User's plan has been downgraded." }
 
 # * FUNCTION TO SCRAPE USER'S STORE
-def scrape_store() -> bool|pd.DataFrame:
+def scrape_store() -> (bool|pd.DataFrame):
     """
     Scrapes the store of user and get product insights.
     """

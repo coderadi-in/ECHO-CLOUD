@@ -58,6 +58,7 @@
 .main .body .products-grid .product {
     aspect-ratio: 3 / 2;
     transition: transform 0.3s;
+    color: #F8F7FF;
 }
 
 .main .body .products-grid .product:hover { transform: translateY(-8px); }

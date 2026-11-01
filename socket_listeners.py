@@ -112,15 +112,10 @@ def generate_response(data: str) -> str:
     if (not data) or (data.strip() == ""):
         return
     
-    tone = current_user.ai_tone or "Mentor"
-    lang = current_user.ai_lang or "English"
-    creativity = current_user.ai_creativity or 0
-    
     # RESPONSE GENERATION
     response = get_response(
         system_prompt=SystemPrompts.RESPONSE_GENERATION,
         message=data,
-        personality_prompt=f"Talk like a {tone} in {lang}, and use {creativity * 10}% of your creativity, 0% means you can set creativity according to user's request.",
         token_size=TokenSize.RESPONSE_GENERATION
     )
 

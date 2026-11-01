@@ -12,7 +12,7 @@ const sidebar = document.querySelector('.sidebar');
 const toggleSidebarBtns = document.querySelectorAll('.toggle-sidebar');
 
 // ? API REFERENCES
-const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/?view=by-range`; //`${window.location.origin}/api/orders/fetch/prod-qty/by-range`;
+const ORDER_API_ENDPOINT = `${window.location.origin}/api/orders/?view=by-range`;
 const QTIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-time`;
 const QSTATUS_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/qty/by-status`;
 const ATIME_COMPARE_API_ENDPOINT = `${window.location.origin}/api/matrices/compare/amt/by-time`;
